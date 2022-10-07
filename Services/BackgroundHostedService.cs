@@ -51,9 +51,9 @@ namespace Daily_Helper.Services
         }
 
 
-        private async Task<string> Payload()
+        private async Task Payload()
         {
-            await Task.Delay(TimeSpan.FromSeconds(3));
+            await Task.Delay(TimeSpan.FromSeconds(5));
 
             if (_routineTests != null && _routineTests.Routines.Count > 0)
             {
@@ -67,9 +67,9 @@ namespace Daily_Helper.Services
                         
                 }
             }
-                
+
             //return _randomStringService.GetRandomString();
-            return "Returned value";
+            return;
         }
     }
 }

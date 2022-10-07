@@ -50,7 +50,7 @@ namespace Daily_Helper.Models
             else
             {
                 Success=false;
-                Result = "Сервер не отвечает";
+                Result = "Ошибка. Сервер не отвечает";
             } 
             
         }

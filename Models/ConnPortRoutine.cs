@@ -46,8 +46,7 @@ namespace Daily_Helper.Models
 
                     if (e.ErrorCode == 10060) Result = $"Сервер не отвечает";
                 else
-                    Result = $"Ошибка ${e.GetBaseException().Message}";
-                throw;
+                    Result = $"Ошибка {e.GetBaseException().Message}";
             }
             catch (Exception e)
             {

@@ -47,7 +47,7 @@ namespace Daily_Helper.ViewModels
 
         private void OnAddConnPortCommandExecuted(object obj)
         {
-            ConnPortRoutine connPort = new("F500-SR-FTP", 21);
+            ConnPortRoutine connPort = new("F500-SR-FTPg", 21);
             connPort.IsActivated = true;
             Routines.Add(connPort);
 
