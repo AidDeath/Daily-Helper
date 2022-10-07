@@ -1,0 +1,57 @@
+﻿<Window x:Class="Daily_Helper.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="450" Width="800"
+        xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
+        xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
+        vml:ViewModelLocator.AutoWireViewModel="True"
+        d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" >
+    <Window.Resources>
+        <conv:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
+        <conv:DateTimeToSpanStringConverter x:Key="DateTimeToSpanStringConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Задачи">
+                <MenuItem.Items>
+                    <MenuItem Header="Старт проверок" Command="{Binding AddNewPingCommand}"/>
+                    <MenuItem Header="Добавить проверку" Command="{Binding AddNewConnPortCommand}"/>
+                    <MenuItem Header="Настройки" Command="{Binding AddNewFreeSpaceCommand}"/>
+                </MenuItem.Items>
+            </MenuItem>
+            <MenuItem Header="Логи"/>
+        </Menu>
+
+       
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Background" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="Background" Value="{Binding Success, Converter={StaticResource BooleanToColorConverter}}"/>
+                </Style>
+            </DataGrid.RowStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*"/>
+                <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*"/>
+                <DataGridTextColumn Header="Проверено" Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"/>
+                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+</Window>
