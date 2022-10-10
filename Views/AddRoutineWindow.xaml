@@ -8,6 +8,14 @@
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
         d:DataContext ="{d:DesignInstance {x:Type vml:AddRoutineViewModel}}" 
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" WindowStyle="ToolWindow">
@@ -16,13 +24,15 @@
     </Window.Resources>
     <Grid Margin="5">
         <DockPanel >
-            <ComboBox ItemsSource="{Binding Descriptions}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding RoutineType}" DockPanel.Dock="Top"/>
-            <Button DockPanel.Dock="Bottom" Content="Создать" Command="{Binding SubmitChangesCommand}"/>
+            <ComboBox ItemsSource="{Binding Descriptions}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding RoutineType}" 
+                      DockPanel.Dock="Top" materialDesign:HintAssist.Hint="Выбор типа задания" Style="{StaticResource MaterialDesignFilledComboBox}"/>
+            <Button DockPanel.Dock="Bottom" Content="Создать" Command="{Binding SubmitChangesCommand}"  />
             <StackPanel Margin="5" HorizontalAlignment="Stretch">
                 <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.Ping}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="IP адрес или имя хоста:" Width="Auto"/>
-                        <TextBox Width="Auto"/>
+                        <TextBlock VerticalAlignment="Center" Text="IP адрес или имя хоста:" Width="Auto"/>
+                        <TextBox Width="150" Text="123123" ToolTip="dfasdfsaf " Margin="10,0" />
+
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.FileShare}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >

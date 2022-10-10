@@ -7,6 +7,14 @@
         Title="{Binding Title}" Height="450" Width="800"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
         d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" >
     <Window.Resources>
@@ -36,7 +44,7 @@
         </Menu>
 
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" SelectionUnit="CellOrRowHeader">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -60,5 +68,7 @@
             </DataGrid.Columns>
 
         </DataGrid>
+            
+
     </Grid>
 </Window>
