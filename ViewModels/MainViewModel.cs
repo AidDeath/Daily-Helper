@@ -2,6 +2,7 @@
 using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Models;
 using Daily_Helper.Services;
+using Daily_Helper.Views;
 using System.Collections.ObjectModel;
 
 namespace Daily_Helper.ViewModels
@@ -28,6 +29,8 @@ namespace Daily_Helper.ViewModels
             AddNewPingCommand = new RelayCommand(OnAddPingCommandExecuted);
             AddNewConnPortCommand = new RelayCommand(OnAddConnPortCommandExecuted);
             AddNewFreeSpaceCommand = new RelayCommand(OnAddNewFreeSpaceCommandExecuted);
+
+            ShowAddRoutineWindowCommand = new RelayCommand(OnShowAddRoutineWindowCommandExecuted);
             
         }
 
@@ -47,7 +50,7 @@ namespace Daily_Helper.ViewModels
 
         private void OnAddConnPortCommandExecuted(object obj)
         {
-            ConnPortRoutine connPort = new("F500-SR-FTPg", 21);
+            ConnPortRoutine connPort = new("F500-SR-FTP", 21);
             connPort.IsActivated = true;
             Routines.Add(connPort);
 
@@ -59,6 +62,22 @@ namespace Daily_Helper.ViewModels
         {
             FileShareRoutine freeSpace = new(@"\\F506-PC2031\");
             Routines.Add(freeSpace);
+
+        }
+
+        public IRaisedCommand ShowAddRoutineWindowCommand { get; }
+
+        private void OnShowAddRoutineWindowCommandExecuted(object obj)
+        {
+            var wnd = new AddRoutineWindow()
+            {
+                Owner = GetCurrentWindow()
+            };
+
+            var vm = wnd.DataContext as AddRoutineViewModel;
+
+            var result = wnd.ShowDialog();
+
 
         }
 

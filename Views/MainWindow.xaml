@@ -23,16 +23,20 @@
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
                     <MenuItem Header="Старт проверок" Command="{Binding AddNewPingCommand}"/>
-                    <MenuItem Header="Добавить проверку" Command="{Binding AddNewConnPortCommand}"/>
+                    <MenuItem Header="Добавить проверку" Command="{Binding ShowAddRoutineWindowCommand}"/>
                     <MenuItem Header="Настройки" Command="{Binding AddNewFreeSpaceCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
-            <MenuItem Header="Логи"/>
+            <MenuItem Header="Логи" >
+                <MenuItem.Items>
+                    <MenuItem Header="Добавить задание" Command="{Binding ShowAddRoutineWindowCommand}"/>
+                </MenuItem.Items>
+            </MenuItem>
+            
         </Menu>
 
-       
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="*">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -46,10 +50,13 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*"/>
-                <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*"/>
-                <DataGridTextColumn Header="Проверено" Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"/>
-                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}"/>
+                <DataGridCheckBoxColumn Header="Вкл." Binding="{Binding IsActivated, Mode=TwoWay}" Width="Auto"/>
+                <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Проверено" 
+                                    Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}" IsReadOnly="True"/>
             </DataGrid.Columns>
 
         </DataGrid>

@@ -30,12 +30,10 @@ namespace Daily_Helper.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                _logger.LogInformation("Background service call");
                 try
                 {
-                    //_valuesProvider.StringValue = await Payload();
                     await Payload();
-                    _logger.LogInformation("Background service call");
-
                     
                     foreach (var routine in _routineTests.Routines)
                     {
@@ -68,7 +66,6 @@ namespace Daily_Helper.Services
                 }
             }
 
-            //return _randomStringService.GetRandomString();
             return;
         }
     }

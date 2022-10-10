@@ -57,7 +57,7 @@ namespace Daily_Helper.Models
             {
                 foreach (var share in WatchedShares)
                 {
-                    share.RefreshFreeSpace();
+                    await Task.Run(() => share.RefreshFreeSpace()); 
                     results.Add($"{share.NetName} - {share.FreeSpace} свободно");
                     
                 }
@@ -65,10 +65,10 @@ namespace Daily_Helper.Models
                 Success = true;
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
             }
-            catch (Exception еx)
+            catch (Exception е)
             {
                 Success = false;
-                //Result = $"Ошибка: {ex.Message}";
+                //Result = $"Ошибка: {e.Message}";
             }
 
 
