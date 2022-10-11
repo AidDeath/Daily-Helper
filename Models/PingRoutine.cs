@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Daily_Helper.Models
 {
+    /// <summary>
+    /// Gets IP address of server and sends a ICMP request
+    /// </summary>
+    /// <param name="Hostname"></param>
     public class PingRoutine : RoutineBase
     {
 
@@ -15,17 +19,19 @@ namespace Daily_Helper.Models
         PingOptions pingOptions = new PingOptions() {  DontFragment = true, Ttl = 128};
 
         private string _hostname;
-        /// <summary>
-        /// Gets IP address of server and sends a ICMP request
-        /// </summary>
-        /// <param name="Hostname"></param>
-        public PingRoutine(string Hostname)
+        public string Hostname
         {
-            //IPAddress.Parse(Hostname);
-            _hostname = Hostname;
-            Description = $"Команда ping на сервер {_hostname}";
+            get => _hostname;
+            set => SetProperty(ref _hostname, value);
         }
-        
+
+        public PingRoutine(string hostname)
+        {
+            Hostname = hostname;
+            //Description = $"Команда ping на сервер {_hostname}";
+        }
+
+        public override string Description => $"Команда ping на сервер {Hostname}";
 
         public override async Task ExecuteRoutineTest()
         {

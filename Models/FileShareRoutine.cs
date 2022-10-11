@@ -5,37 +5,45 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Web;
 
 namespace Daily_Helper.Models
 {
     /// <summary>
     /// Checking free disk space at selected path (May be network pass)
     /// </summary>
-    internal class FileShareRoutine : RoutineBase
+    public class FileShareRoutine : RoutineBase
     {
         private string _server;
+        public string Server
+        {
+            get => _server;
+            set => SetProperty(ref _server, value);
+        }
+
         private IEnumerable<Share> _allShares;
 
-        private ObservableCollection<Share> _watchingShares;
+        private ObservableCollection<Share>? _watchingShares;
         /// <summary>
         /// File shares that would be checking in routine
         /// </summary>
-        public ObservableCollection<Share> WatchedShares
+        public ObservableCollection<Share>? WatchedShares
         {
             get => _watchingShares;
             set => SetProperty(ref _watchingShares, value);
         }
 
-        public FileShareRoutine(string ServerPath)
-        {
-            Description = $"Проверка файловых шар на {ServerPath}";
+        public override string Description => $"Проверка файловых шар на {Server}";
 
-            _server = ServerPath;
+        public FileShareRoutine(string server)
+        {
+            //Description = $"Проверка файловых шар на {server}";
+
+            Server = server;
             try
             {
                 _allShares = ShareDetector
-                .GetAllShares(_server)
+                .GetAllShares(Server)
                 .Where(share => share.IsFileSystem);
             }
             catch (Exception e)
@@ -45,6 +53,7 @@ namespace Daily_Helper.Models
 
             }
             
+            //TODO : Позже управлять шарами в vm
             if (_allShares is not null)
                 WatchedShares = new (_allShares);
 
@@ -65,7 +74,7 @@ namespace Daily_Helper.Models
                 Success = true;
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
             }
-            catch (Exception е)
+            catch (Exception)
             {
                 Success = false;
                 //Result = $"Ошибка: {e.Message}";

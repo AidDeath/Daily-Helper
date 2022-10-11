@@ -8,6 +8,7 @@ namespace Daily_Helper.Models
 {
     public abstract class RoutineBase : ObservableObject
     {
+
         private bool _isActivated;
 
         public bool IsActivated
@@ -30,17 +31,19 @@ namespace Daily_Helper.Models
             }
         }
 
-        private string _description = "unnamed routine test";
-        /// <summary>
-        /// Description of routine
-        /// </summary>
-        public string Description 
-        { 
-            get => _description; 
-            set => SetProperty(ref _description, value); 
-        }
+        //private string _description = "unnamed routine test";
+        ///// <summary>
+        ///// Description of routine
+        ///// </summary>
+        //public string Description 
+        //{ 
+        //    get => _description; 
+        //    set => SetProperty(ref _description, value); 
+        //}
 
-        private string _result = "не определено";
+        public abstract string Description { get; }
+
+        private string _result = "Не выполнялось";
         /// <summary>
         /// Result of routine test execution
         /// </summary>

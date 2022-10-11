@@ -37,7 +37,7 @@
             </MenuItem>
             <MenuItem Header="Логи" >
                 <MenuItem.Items>
-                    <MenuItem Header="Добавить задание" Command="{Binding ShowAddRoutineWindowCommand}"/>
+                    <MenuItem Header="Добавить задание" Command="{Binding AddNewConnPortCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
             

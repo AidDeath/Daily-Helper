@@ -99,6 +99,16 @@ namespace Daily_Helper.Models
 
         #region Properties
 
+        private bool _isSelected;
+        /// <summary>
+        /// Is this share selected in list
+        /// </summary>
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
         /// <summary>
         /// Returns true if this is a file system share
         /// </summary>

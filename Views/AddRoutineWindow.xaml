@@ -7,6 +7,7 @@
         Title="{Binding Title}" Height="450" Width="400"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
+        xmlns:models="clr-namespace:Daily_Helper.Models"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -21,6 +22,7 @@
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Window.Resources>
         <conv:RoutineTypeToVisibilityConverter x:Key="RoutineTypeToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid Margin="5">
         <DockPanel >
@@ -28,18 +30,109 @@
                       DockPanel.Dock="Top" materialDesign:HintAssist.Hint="Выбор типа задания" Style="{StaticResource MaterialDesignFilledComboBox}"/>
             <Button DockPanel.Dock="Bottom" Content="Создать" Command="{Binding SubmitChangesCommand}"  />
             <StackPanel Margin="5" HorizontalAlignment="Stretch">
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.Ping}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="IP адрес или имя хоста:" Width="Auto"/>
-                        <TextBox Width="150" Text="123123" ToolTip="dfasdfsaf " Margin="10,0" />
-
-                    </StackPanel>
+                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.Ping}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
+                            <TextBlock Text="Проверяется доступность укзанного сервера с помощью ICMP пакета ping" TextWrapping="Wrap"/>
+                        </materialDesign:Chip>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding PingRoutine.Hostname}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
+                    </Grid>
                 </StackPanel>
                 <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.FileShare}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
-                    <TextBlock Text="For adding file share test" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
+                            <TextBlock Text="Проверяется доступность общих ресурсов на сервере. Дополнительно опрашивается количество свободного места." TextWrapping="Wrap"/>
+                        </materialDesign:Chip>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <TextBox  Width="150" Text="{Binding FileShareRoutine.Server}" 
+                                 ToolTip="Имя хоста или IP адрес" Margin="10,0" IsReadOnly="{Binding IsSharesSelecting}" />
+                            <Button HorizontalAlignment="Right" Command="{Binding SelectSharesCommand}" Style="{StaticResource MaterialDesignToolButton}" 
+                                    Visibility="{Binding IsSharesSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <materialDesign:PackIcon Kind="CloseOutline"/>
+                            </Button>
+                        </StackPanel>
+                        
+                        <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Content="Выбрать ресурсы" ToolTip="Получить список ресурсов и выбрать нужные" Command="{Binding SelectSharesCommand}"
+                                    Visibility="{Binding IsSharesSelecting, Converter={StaticResource InverseBoolToVisConverter}}"/>
+                        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Visibility="{Binding IsSharesSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl ItemsSource="{Binding AvailableShares}"
+                                          Grid.IsSharedSizeScope="True" Margin="12 0 12 0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:Share}">
+                                        <Border x:Name="Border" Padding="8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="Checkerz" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsSelected}" />
+                                                <StackPanel Margin="8 0 0 0" Grid.Column="1">
+                                                    <TextBlock Text="{Binding Path}" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+
+
+                    </Grid>
+                    
                 </StackPanel>
                 <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ConnectToPort}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
-                    <TextBlock Text="For adding conn port test" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
+                            <TextBlock Text="Проверяется доступность службы на укзанном сервере с помощью подключения к заданному порту" TextWrapping="Wrap"/>
+                        </materialDesign:Chip>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding ConnPortRoutine.Hostname}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Порт:" Width="Auto" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Width="150" Text="{Binding ConnPortRoutine.Port}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
+                        <GroupBox Header="Популярные службы:" Grid.Row="3" Grid.ColumnSpan="2" Margin="5">
+                            <WrapPanel>
+                                <Button Content="FTP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="21"/>
+                                <Button Content="Radius" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="24554"/>
+                                <Button Content="MSSQL" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="1433"/>
+                                <Button Content="RDP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="21"/>
+                            </WrapPanel>
+                        </GroupBox>
+                    </Grid>
                 </StackPanel>
             </StackPanel>
 

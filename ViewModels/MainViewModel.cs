@@ -4,6 +4,7 @@ using Daily_Helper.Models;
 using Daily_Helper.Services;
 using Daily_Helper.Views;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Daily_Helper.ViewModels
 {
@@ -77,6 +78,23 @@ namespace Daily_Helper.ViewModels
             var vm = wnd.DataContext as AddRoutineViewModel;
 
             var result = wnd.ShowDialog();
+
+            if (result == true)
+                switch (vm.RoutineType)
+                {
+                    case Helpers.Enums.RoutineTypes.ConnectToPort:
+                        Routines.Add(vm.ConnPortRoutine);
+                        break;
+                    case Helpers.Enums.RoutineTypes.Ping:
+                        Routines.Add(vm.PingRoutine);
+                        break;
+                    case Helpers.Enums.RoutineTypes.FileShare:
+                        vm.FileShareRoutine.WatchedShares = new(vm.AvailableShares.Where(share => share.IsSelected));
+                        Routines.Add(vm.FileShareRoutine);
+                        break;
+                    default:
+                        break;
+                }
 
 
         }
