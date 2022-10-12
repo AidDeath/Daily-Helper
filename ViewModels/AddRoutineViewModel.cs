@@ -2,6 +2,8 @@
 using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Helpers.Enums;
 using Daily_Helper.Models;
+using Daily_Helper.Views;
+using Daily_Helper.Views.Dialogs;
 using MaterialDesignExtensions.Controls;
 using MaterialDesignThemes.Wpf;
 using System;
@@ -109,7 +111,7 @@ namespace Daily_Helper.ViewModels
         /// User inputted portNo file server name and pressed "select shares"
         /// </summary>
         /// <param name="obj"></param>
-        private void OnSelectSharesCommandExecuted(object obj)
+        private void  OnSelectSharesCommandExecuted(object obj)
         {
             try
             {
@@ -120,8 +122,7 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Ошибка: {e.GetBaseException().Message}", "ЗАМЕНМИТЬ НА НОРМАЛЬНОЕ СООБЩЕНИЕ", MessageBoxButton.OK, MessageBoxImage.Error);
-                //DialogHost.Show($"Ошибка: {e.GetBaseException().Message}");
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ; ;
             }
 
         }

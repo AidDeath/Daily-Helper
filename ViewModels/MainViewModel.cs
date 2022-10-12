@@ -40,10 +40,7 @@ namespace Daily_Helper.ViewModels
 
         private void OnAddPingCommandExecuted(object obj)
         {
-            PingRoutine ping = new("mail.mfrb.by");
-            ping.IsActivated = true;
-            Routines.Add(ping);
-
+            //MaterialMessageBox.Show("fsdfsd");
         }
 
 

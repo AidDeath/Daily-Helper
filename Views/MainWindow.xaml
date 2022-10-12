@@ -7,7 +7,7 @@
         Title="{Binding Title}" Height="450" Width="800"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"

@@ -9,7 +9,7 @@
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
         xmlns:models="clr-namespace:Daily_Helper.Models"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -25,6 +25,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid Margin="5">
+        <!--DialogHost must be loaded in window, in order to show dialogs-->
+        <materialDesign:DialogHost CloseOnClickAway="True" Identifier="MaterialMessageBox" Panel.ZIndex="1"/>
         <DockPanel >
             <ComboBox ItemsSource="{Binding Descriptions}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding RoutineType}" 
                       DockPanel.Dock="Top" materialDesign:HintAssist.Hint="Выбор типа задания" Style="{StaticResource MaterialDesignFilledComboBox}"/>
