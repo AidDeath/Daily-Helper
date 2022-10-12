@@ -287,6 +287,20 @@ namespace Daily_Helper.Helpers
             GetDiskFreeSpaceEx(share.ToString(), out long freeBytesAvailable, out long totalBytes, out long totalBytesFree);
             share.FreeSpace = freeBytesAvailable;
         }
+
+        public static string GetHumanReadableFreeSpace(long freeBytes)
+        {
+            string[] abbr = { "B", "KB", "MB", "GB", "TB" };
+            int order = 0;
+
+            while (freeBytes >= 1024 && order < abbr.Length - 1)
+            {
+                order++;
+                freeBytes /= 1024;
+            }
+
+            return String.Format("{0:0.##} {1}", freeBytes, abbr[order]);
+        }
     }
 
     #endregion

@@ -51,12 +51,12 @@ namespace Daily_Helper.Models
             if (pingReply.Status == IPStatus.Success)
             {
                 Success = true;
-                Result = $"Сервер доступен, время отклика: {pingReply.RoundtripTime}мс.";
+                Result = $"Хост доступен, время отклика: {pingReply.RoundtripTime}мс.";
             }
             else
             {
                 Success=false;
-                Result = "Ошибка. Сервер не отвечает";
+                Result = "Ошибка. Хост не отвечает";
             } 
             
         }

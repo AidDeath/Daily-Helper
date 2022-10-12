@@ -67,7 +67,7 @@ namespace Daily_Helper.Models
                 foreach (var share in WatchedShares)
                 {
                     await Task.Run(() => share.RefreshFreeSpace()); 
-                    results.Add($"{share.NetName} - {share.FreeSpace} свободно");
+                    results.Add($"{share.NetName} - {ShareDetector.GetHumanReadableFreeSpace(share.FreeSpace)} свободно");
                     
                 }
 
