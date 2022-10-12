@@ -39,8 +39,8 @@ namespace Daily_Helper.ViewModels
             PingRoutine = new(string.Empty);
             FileShareRoutine = new(string.Empty);
 
-            SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted);
-            SelectSharesCommand = new RelayCommand(OnSelectSharesCommandExecuted);
+            SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
+            SelectSharesCommand = new RelayCommand(OnSelectSharesCommandExecuted, CanSelectSharesCommandExecute);
 
             SetPortCommand = new RelayCommand(OnSetPortCommandExecuted);
             
@@ -106,6 +106,21 @@ namespace Daily_Helper.ViewModels
             wnd.Close();
         }
 
+        private bool CanSubmitChangesCommandExecute(object obj)
+        {
+            switch (RoutineType)
+            {
+                case RoutineTypes.Ping:
+                    return !string.IsNullOrWhiteSpace(PingRoutine.Hostname);
+                case RoutineTypes.FileShare:
+                    return IsSharesSelecting && AvailableShares.Any(share => share.IsSelected);
+                case RoutineTypes.ConnectToPort:
+                    return !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
+                default:
+                    return false;
+            }
+        }
+
         public IRaisedCommand SelectSharesCommand { get; }
         /// <summary>
         /// User inputted portNo file server name and pressed "select shares"
@@ -125,6 +140,11 @@ namespace Daily_Helper.ViewModels
                 DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ; ;
             }
 
+        }
+
+        private bool CanSelectSharesCommandExecute(object obj)
+        {
+            return !string.IsNullOrWhiteSpace(FileShareRoutine.Server);
         }
 
         public IRaisedCommand SetPortCommand { get; }
