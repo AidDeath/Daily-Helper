@@ -111,11 +111,11 @@ namespace Daily_Helper.ViewModels
             switch (RoutineType)
             {
                 case RoutineTypes.Ping:
-                    return !string.IsNullOrWhiteSpace(PingRoutine.Hostname);
+                    return !PingRoutine.HasErrors; //!string.IsNullOrWhiteSpace(PingRoutine.Hostname) ;
                 case RoutineTypes.FileShare:
                     return IsSharesSelecting && AvailableShares.Any(share => share.IsSelected);
                 case RoutineTypes.ConnectToPort:
-                    return !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
+                    return  !ConnPortRoutine.HasErrors;//!string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
                 default:
                     return false;
             }

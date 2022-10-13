@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Daily_Helper.Models
 {
-    public abstract class RoutineBase : ObservableObject
+    public abstract class RoutineBase : ValidatingObservableObject //ObservableObject
     {
 
         private bool _isActivated;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Daily_Helper.Models
     public class ConnPortRoutine : RoutineBase
     {
         private string? _hostname;
+        [Required(ErrorMessage ="Укажите имя хоста")]
         public string? Hostname
         {
             get => _hostname;
@@ -18,6 +20,8 @@ namespace Daily_Helper.Models
         }
 
         private int _port;
+        [Range(1,99999, ErrorMessage = "Неверный порт")]
+        [Required(ErrorMessage = "Укажите порт")]
         public int Port
         {
             get => _port;
@@ -25,7 +29,7 @@ namespace Daily_Helper.Models
         }
 
         public override string Description => $"Проверка подключения к {Hostname}:{Port} ";
-
+        
         public ConnPortRoutine(string hostname, int port)
         {
             Hostname = hostname;

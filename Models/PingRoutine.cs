@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -19,6 +20,7 @@ namespace Daily_Helper.Models
         PingOptions pingOptions = new PingOptions() {  DontFragment = true, Ttl = 128};
 
         private string _hostname;
+        [MinLength(1, ErrorMessage ="Укажите хост")]
         public string Hostname
         {
             get => _hostname;
