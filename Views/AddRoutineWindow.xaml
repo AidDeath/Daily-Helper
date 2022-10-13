@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="450"
+        Title="{Binding Title}" Height="600" Width="450"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
         xmlns:models="clr-namespace:Daily_Helper.Models"

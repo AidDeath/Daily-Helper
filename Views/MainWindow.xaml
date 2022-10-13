@@ -30,7 +30,6 @@
         <Menu>
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
-                    <MenuItem Header="Старт проверок" Command="{Binding AddNewPingCommand}"/>
                     <MenuItem Header="Добавить проверку" Command="{Binding ShowAddRoutineWindowCommand}"/>
                     <MenuItem Header="Настройки" Command="{Binding AddNewFreeSpaceCommand}"/>
                 </MenuItem.Items>
