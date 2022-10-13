@@ -22,6 +22,7 @@ namespace Daily_Helper.Models
         private int _port;
         [Range(1,99999, ErrorMessage = "Неверный порт")]
         [Required(ErrorMessage = "Укажите порт")]
+        //This fiend is nullable just as walkaround. I tried tonns of ways to validate it properly
         public int Port
         {
             get => _port;

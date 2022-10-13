@@ -115,7 +115,7 @@ namespace Daily_Helper.ViewModels
                 case RoutineTypes.FileShare:
                     return IsSharesSelecting && AvailableShares.Any(share => share.IsSelected);
                 case RoutineTypes.ConnectToPort:
-                    return  !ConnPortRoutine.HasErrors;//!string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
+                    return !ConnPortRoutine.HasErrors;//!string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
                 default:
                     return false;
             }
@@ -137,7 +137,7 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
-                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ; ;
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ;
             }
 
         }
