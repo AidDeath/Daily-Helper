@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
@@ -44,14 +45,25 @@ namespace Daily_Helper.Models
             {
                 foreach (var service in WatchedServices)
                 {
-                    var sc = new ServiceController(service.Name, service.MachineName);
-                    service.Status = sc.Status.Equals(ServiceControllerStatus.Running) ? "Работает" : "Остановлен";
+                    try
+                    {
+                        var sc = new ServiceController(service.Name, service.MachineName);
+                        service.Status = sc.Status.Equals(ServiceControllerStatus.Running) ? "Работает" : "Остановлена";
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        var baseEx = ex.GetBaseException();
+                        service.Status = ex.GetBaseException().Message;
+                        service.IsSelected = false;
+                    }
 
+                    service.IsSuccess = true;
                     results.Add($"{service.Name} - {service.Status}");
 
                 }
 
-                Success = true;
+                //success if even any of items are Ok
+                Success = WatchedServices.Any(s => s.IsSuccess);
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
             }
             catch (Exception e)

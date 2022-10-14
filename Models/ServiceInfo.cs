@@ -49,6 +49,8 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _isSelected, value);
         }
 
+        public bool IsSuccess;
+
         public string MachineName { get; set; } = string.Empty;
 
         public static IEnumerable<ServiceInfo> GetAllServices(string serverName)
