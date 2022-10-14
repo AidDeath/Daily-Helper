@@ -35,12 +35,15 @@ namespace Daily_Helper.ViewModels
             Title = "Добавить задачу проверки";
             Descriptions = RoutinesDescriptions.Descriptions;
 
-            ConnPortRoutine = new(string.Empty, 80);
-            PingRoutine = new(string.Empty);
-            FileShareRoutine = new(string.Empty);
+            ConnPortRoutine = new("localhost", 80);
+            PingRoutine = new("localhost");
+            FileShareRoutine = new();
+            ServiceStateRoutine = new();
+            
 
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
             SelectSharesCommand = new RelayCommand(OnSelectSharesCommandExecuted, CanSelectSharesCommandExecute);
+            SelectServicesCommand = new RelayCommand(OnSelectServicesCommandExecuted, CanSelectServicesCommandExecute);
 
             SetPortCommand = new RelayCommand(OnSetPortCommandExecuted);
             
@@ -86,6 +89,29 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _availableShares, value);
         }
 
+        private ServiceStateRoutine _serviceStateRoutine;
+        public ServiceStateRoutine ServiceStateRoutine
+        {
+            get => _serviceStateRoutine;
+            set => SetProperty(ref _serviceStateRoutine, value);
+        }
+
+        private bool _isServiceSelecting;
+        public bool IsServiceSelecting
+        {
+            get => _isServiceSelecting;
+            set => SetProperty(ref _isServiceSelecting, value);
+        }
+
+        private ObservableCollection<ServiceInfo> _availableServcies;
+
+        public ObservableCollection<ServiceInfo> AvailableServcies
+        {
+            get => _availableServcies;
+            set => SetProperty(ref _availableServcies, value);
+        }
+
+
         private ConnPortRoutine _connPortRoutine;
         public ConnPortRoutine ConnPortRoutine
         {
@@ -114,8 +140,10 @@ namespace Daily_Helper.ViewModels
                     return !PingRoutine.HasErrors; //!string.IsNullOrWhiteSpace(PingRoutine.Hostname) ;
                 case RoutineTypes.FileShare:
                     return IsSharesSelecting && AvailableShares.Any(share => share.IsSelected);
+                case RoutineTypes.ServiceState:
+                    return IsServiceSelecting && AvailableServcies.Any(service => service.IsSelected);
                 case RoutineTypes.ConnectToPort:
-                    return !ConnPortRoutine.HasErrors;//!string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
+                    return !ConnPortRoutine.HasErrors && !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
                 default:
                     return false;
             }
@@ -146,6 +174,33 @@ namespace Daily_Helper.ViewModels
         {
             return !string.IsNullOrWhiteSpace(FileShareRoutine.Server);
         }
+
+
+        public IRaisedCommand SelectServicesCommand { get; }
+
+        private void OnSelectServicesCommandExecuted(object obj)
+        {
+            try
+            {
+                if (IsServiceSelecting == false)
+                    AvailableServcies = new(ServiceInfo.GetAllServices(ServiceStateRoutine.Server));
+
+                IsServiceSelecting = !IsServiceSelecting;
+            }
+            catch (Exception e)
+            {
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
+            }
+
+        }
+
+        private bool CanSelectServicesCommandExecute(object obj)
+        {
+            var a = !string.IsNullOrWhiteSpace(ServiceStateRoutine.Server);
+            return !string.IsNullOrWhiteSpace(ServiceStateRoutine.Server);
+        }
+
+
 
         public IRaisedCommand SetPortCommand { get; }
         /// <summary>

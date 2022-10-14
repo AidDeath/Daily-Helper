@@ -10,7 +10,8 @@ namespace Daily_Helper.Helpers.Enums
     {
         ConnectToPort,
         Ping,
-        FileShare
+        FileShare,
+        ServiceState
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ namespace Daily_Helper.Helpers.Enums
         {
             { RoutineTypes.ConnectToPort, "Проверка подключения на порт" },
             { RoutineTypes.FileShare, "Проверка файловых шар" },
-            { RoutineTypes.Ping, "Проверка доступности хоста (ping)" }
+            { RoutineTypes.Ping, "Проверка доступности хоста (ping)" },
+            {RoutineTypes.ServiceState, "Проверка состояния службы" }
         };
     }
 

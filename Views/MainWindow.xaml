@@ -57,7 +57,7 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Вкл." Binding="{Binding IsActivated, Mode=TwoWay}" Width="Auto"/>
+                <DataGridCheckBoxColumn Header="Вкл." Binding="{Binding IsActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
                 <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Проверено" 

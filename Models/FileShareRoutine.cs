@@ -35,29 +35,25 @@ namespace Daily_Helper.Models
 
         public override string Description => $"Проверка файловых шар на {Server}";
 
-        public FileShareRoutine(string server)
-        {
-            //Description = $"Проверка файловых шар на {server}";
 
-            Server = server;
-            try
-            {
-                _allShares = ShareDetector
-                .GetAllShares(Server)
-                .Where(share => share.IsFileSystem);
-            }
-            catch (Exception e)
-            {
-                IsActivated = false;
-                Result = $"Ошибка - {e.GetBaseException().Message}\nПроверка отключена";
+        //public FileShareRoutine(string server)
+        //{
+        //    //Description = $"Проверка файловых шар на {server}";
 
-            }
-            
-            //TODO : Позже управлять шарами в vm
-            if (_allShares is not null)
-                WatchedShares = new (_allShares);
+        //    Server = server;
+        //    try
+        //    {
+        //        _allShares = ShareDetector
+        //        .GetAllShares(Server)
+        //        .Where(share => share.IsFileSystem);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        IsActivated = false;
+        //        Result = $"Ошибка - {e.GetBaseException().Message}\nПроверка отключена";
 
-        }
+        //    }
+        //}
 
         public override async Task ExecuteRoutineTest()
         {

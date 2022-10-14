@@ -43,6 +43,7 @@ namespace Daily_Helper.ViewModels
 
             var result = wnd.ShowDialog();
 
+            //ПЕРЕДЕЛАТЬ! ВОЗМОЖНЫ УТЕЧКИ ПАМЯТИ?!
             if (result == true)
                 switch (vm.RoutineType)
                 {
@@ -55,6 +56,10 @@ namespace Daily_Helper.ViewModels
                     case Helpers.Enums.RoutineTypes.FileShare:
                         vm.FileShareRoutine.WatchedShares = new(vm.AvailableShares.Where(share => share.IsSelected));
                         Routines.Add(vm.FileShareRoutine);
+                        break;
+                    case Helpers.Enums.RoutineTypes.ServiceState:
+                        vm.ServiceStateRoutine.WatchedServices = new(vm.AvailableServcies.Where(service => service.IsSelected));
+                        Routines.Add(vm.ServiceStateRoutine);
                         break;
                     default:
                         break;

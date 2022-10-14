@@ -59,8 +59,8 @@ namespace Daily_Helper.Services
                 {
                     if (routine.IsActivated)
                     {
-                        await routine.ExecuteRoutineTest();
                         routine.LastExecutted = DateTime.Now;
+                        await routine.ExecuteRoutineTest();
                     }
                         
                 }

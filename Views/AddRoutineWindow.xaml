@@ -43,9 +43,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="5">
                             <TextBlock Text="Проверяется доступность укзанного сервера с помощью ICMP пакета ping" TextWrapping="Wrap"/>
-                        </materialDesign:Chip>
+                        </materialDesign:Card>
                         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding PingRoutine.Hostname, UpdateSourceTrigger=PropertyChanged}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
                     </Grid>
@@ -61,9 +61,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
-                            <TextBlock Text="Проверяется доступность общих ресурсов на сервере. Дополнительно опрашивается количество свободного места." TextWrapping="Wrap"/>
-                        </materialDesign:Chip>
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="5">
+                            <TextBlock Text="Проверяется доступность общих ресурсов на сервере. Удобно применять для мониторинга свободного места, выбрав административные шары" TextWrapping="Wrap"/>
+                        </materialDesign:Card>
                         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                             <TextBox  Width="150" Text="{Binding FileShareRoutine.Server, UpdateSourceTrigger=PropertyChanged}" 
@@ -76,7 +76,8 @@
                         
                         <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Content="Выбрать ресурсы" ToolTip="Получить список ресурсов и выбрать нужные" Command="{Binding SelectSharesCommand}"
                                     Visibility="{Binding IsSharesSelecting, Converter={StaticResource InverseBoolToVisConverter}}"/>
-                        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Visibility="{Binding IsSharesSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="10" MaxHeight="200"
+                                      Visibility="{Binding IsSharesSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <ItemsControl ItemsSource="{Binding AvailableShares}"
                                           Grid.IsSharedSizeScope="True" Margin="12 0 12 0">
                                 <ItemsControl.ItemTemplate>
@@ -120,9 +121,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <materialDesign:Chip Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Height="50">
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="5">
                             <TextBlock Text="Проверяется доступность службы на укзанном сервере с помощью подключения к заданному порту" TextWrapping="Wrap"/>
-                        </materialDesign:Chip>
+                        </materialDesign:Card>
                         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding ConnPortRoutine.Hostname, UpdateSourceTrigger=PropertyChanged}" 
                                  ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
@@ -140,6 +141,66 @@
                         </GroupBox>
                     </Grid>
                 </StackPanel>
+                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ServiceState}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="0" Padding="5" >
+                            <TextBlock Text="Проверяется состояние выбранных служб, зарегистрированных на удалённой машине." TextWrapping="Wrap"/>
+                        </materialDesign:Card>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <TextBox  Width="150" Text="{Binding ServiceStateRoutine.Server, UpdateSourceTrigger=PropertyChanged}" 
+                                 ToolTip="Имя хоста или IP адрес" Margin="10,0" IsReadOnly="{Binding IsServiceSelecting}" />
+                            <Button HorizontalAlignment="Right" Command="{Binding SelectServicesCommand}" Style="{StaticResource MaterialDesignToolButton}" 
+                                    Visibility="{Binding IsServiceSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <materialDesign:PackIcon Kind="CloseOutline"/>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Content="Выбрать службы" ToolTip="Получить список служб и выбрать нужные" Command="{Binding SelectServicesCommand}"
+                                    Visibility="{Binding IsServiceSelecting, Converter={StaticResource InverseBoolToVisConverter}}"/>
+                        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="10" MaxHeight="200"
+                                      Visibility="{Binding IsServiceSelecting, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl ItemsSource="{Binding AvailableServcies}"
+                                          Grid.IsSharedSizeScope="True" Margin="12 0 12 0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:ServiceInfo}">
+                                        <Border x:Name="Border" Padding="8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="Checkerz" />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsSelected}" />
+                                                <StackPanel Margin="8 0 0 0" Grid.Column="1">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+
+
+                    </Grid>
+
+                </StackPanel>
+
             </StackPanel>
 
         </DockPanel>
