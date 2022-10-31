@@ -3,8 +3,10 @@ using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Models;
 using Daily_Helper.Services;
 using Daily_Helper.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel;
 
 namespace Daily_Helper.ViewModels
 {
@@ -25,7 +27,8 @@ namespace Daily_Helper.ViewModels
             Title = "Daily Helper";
             Routines = routines.Routines;
 
-            ShowAddRoutineWindowCommand = new RelayCommand(OnShowAddRoutineWindowCommandExecuted);  
+            ShowAddRoutineWindowCommand = new RelayCommand(OnShowAddRoutineWindowCommandExecuted);
+            ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
         }
 
 
@@ -64,6 +67,27 @@ namespace Daily_Helper.ViewModels
                     default:
                         break;
                 }
+
+        }
+
+        public IRaisedCommand ShowSettingsWindowCommand { get; }
+
+        private void OnShowSettingsWindowCommandExected(object obj)
+        {
+            // FOR TESTS FOR NOW
+
+            var computerName = "localhost";
+
+            EndpointAddress endpoint = new EndpointAddress(@"net.tcp://" + computerName + @":9002/DailyHelperAgent");
+
+            NetTcpBinding binding = new();             
+
+            var client = new ProcessServiceClient(binding, endpoint);
+
+            var testValue = client.GetProcessList();
+            var testvalue2 = client.GetProcessState("miranda32");
+
+            Console.WriteLine(testValue + " " + testvalue2);
 
         }
 

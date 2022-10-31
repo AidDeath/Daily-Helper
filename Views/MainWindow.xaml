@@ -31,7 +31,7 @@
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
                     <MenuItem Header="Добавить проверку" Command="{Binding ShowAddRoutineWindowCommand}"/>
-                    <MenuItem Header="Настройки" Command="{Binding AddNewFreeSpaceCommand}"/>
+                    <MenuItem Header="Настройки" Command="{Binding ShowSettingsWindowCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
             <MenuItem Header="Логи" >
