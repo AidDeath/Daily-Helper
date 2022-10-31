@@ -24,7 +24,6 @@ namespace DailyHelperAgentLib
         /// <returns></returns>
         [OperationContract]
         ProcessState GetProcessState(string processName);
-
     }
 
     [DataContract]
@@ -55,5 +54,8 @@ namespace DailyHelperAgentLib
             set => isResponding = value;
         }
     }
+
+
+
 
 }

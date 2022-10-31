@@ -10,22 +10,19 @@ namespace DailyHelperAgentLib
     {
         public List<string> GetProcessList()
         {
-            return Process.GetProcesses().OrderBy(p => p.ProcessName).Select(p => p.ProcessName).ToList();
+            return Process.GetProcesses().OrderBy(p => p.ProcessName).Select(p => p.ProcessName).Distinct().ToList();
         }
 
         public ProcessState GetProcessState(string processName)
         {
-            var process = Process.GetProcessesByName(processName).FirstOrDefault(p => p.ProcessName == processName);
-
+            var proceses = Process.GetProcessesByName(processName);
+  
             return new ProcessState()
             {
                 Name = processName,
-                IsFound = process != null,
-                IsResponding = process != null && process.Responding
+                IsFound = proceses.FirstOrDefault() != null,
+                IsResponding = proceses != null && proceses.All(proc => proc.Responding)
             };
-
-
-
         }
     }
 }
