@@ -78,57 +78,114 @@ namespace DailyHelperAgentLib
             }
         }
     }
+
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name = "DriveFreeSpace", Namespace = "http://schemas.datacontract.org/2004/07/DailyHelperAgentLib")]
+    public partial class DriveFreeSpace : object, System.Runtime.Serialization.IExtensibleDataObject
+    {
+
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+
+        private long FreeSpaceField;
+
+        private string NameField;
+
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
+                return this.extensionDataField;
+            }
+            set
+            {
+                this.extensionDataField = value;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long FreeSpace
+        {
+            get
+            {
+                return this.FreeSpaceField;
+            }
+            set
+            {
+                this.FreeSpaceField = value;
+            }
+        }
+
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name
+        {
+            get
+            {
+                return this.NameField;
+            }
+            set
+            {
+                this.NameField = value;
+            }
+        }
+    }
 }
 
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-[System.ServiceModel.ServiceContractAttribute(ConfigurationName = "IProcessService")]
-public interface IProcessService
+[System.ServiceModel.ServiceContractAttribute(ConfigurationName = "IAgentService")]
+public interface IAgentService
 {
 
-    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IProcessService/GetProcessList", ReplyAction = "http://tempuri.org/IProcessService/GetProcessListResponse")]
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetProcessList", ReplyAction = "http://tempuri.org/IAgentService/GetProcessListResponse")]
     string[] GetProcessList();
 
-    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IProcessService/GetProcessList", ReplyAction = "http://tempuri.org/IProcessService/GetProcessListResponse")]
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetProcessList", ReplyAction = "http://tempuri.org/IAgentService/GetProcessListResponse")]
     System.Threading.Tasks.Task<string[]> GetProcessListAsync();
 
-    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IProcessService/GetProcessState", ReplyAction = "http://tempuri.org/IProcessService/GetProcessStateResponse")]
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetProcessState", ReplyAction = "http://tempuri.org/IAgentService/GetProcessStateResponse")]
     DailyHelperAgentLib.ProcessState GetProcessState(string processName);
 
-    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IProcessService/GetProcessState", ReplyAction = "http://tempuri.org/IProcessService/GetProcessStateResponse")]
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetProcessState", ReplyAction = "http://tempuri.org/IAgentService/GetProcessStateResponse")]
     System.Threading.Tasks.Task<DailyHelperAgentLib.ProcessState> GetProcessStateAsync(string processName);
+
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetDrivesFreeSpace", ReplyAction = "http://tempuri.org/IAgentService/GetDrivesFreeSpaceResponse")]
+    DailyHelperAgentLib.DriveFreeSpace[] GetDrivesFreeSpace();
+
+    [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IAgentService/GetDrivesFreeSpace", ReplyAction = "http://tempuri.org/IAgentService/GetDrivesFreeSpaceResponse")]
+    System.Threading.Tasks.Task<DailyHelperAgentLib.DriveFreeSpace[]> GetDrivesFreeSpaceAsync();
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-public interface IProcessServiceChannel : IProcessService, System.ServiceModel.IClientChannel
+public interface IAgentServiceChannel : IAgentService, System.ServiceModel.IClientChannel
 {
 }
 
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-public partial class ProcessServiceClient : System.ServiceModel.ClientBase<IProcessService>, IProcessService
+public partial class AgentServiceClient : System.ServiceModel.ClientBase<IAgentService>, IAgentService
 {
 
-    public ProcessServiceClient()
+    public AgentServiceClient()
     {
     }
 
-    public ProcessServiceClient(string endpointConfigurationName) :
+    public AgentServiceClient(string endpointConfigurationName) :
             base(endpointConfigurationName)
     {
     }
 
-    public ProcessServiceClient(string endpointConfigurationName, string remoteAddress) :
+    public AgentServiceClient(string endpointConfigurationName, string remoteAddress) :
             base(endpointConfigurationName, remoteAddress)
     {
     }
 
-    public ProcessServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
+    public AgentServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) :
             base(endpointConfigurationName, remoteAddress)
     {
     }
 
-    public ProcessServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
+    public AgentServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) :
             base(binding, remoteAddress)
     {
     }
@@ -151,5 +208,15 @@ public partial class ProcessServiceClient : System.ServiceModel.ClientBase<IProc
     public System.Threading.Tasks.Task<DailyHelperAgentLib.ProcessState> GetProcessStateAsync(string processName)
     {
         return base.Channel.GetProcessStateAsync(processName);
+    }
+
+    public DailyHelperAgentLib.DriveFreeSpace[] GetDrivesFreeSpace()
+    {
+        return base.Channel.GetDrivesFreeSpace();
+    }
+
+    public System.Threading.Tasks.Task<DailyHelperAgentLib.DriveFreeSpace[]> GetDrivesFreeSpaceAsync()
+    {
+        return base.Channel.GetDrivesFreeSpaceAsync();
     }
 }

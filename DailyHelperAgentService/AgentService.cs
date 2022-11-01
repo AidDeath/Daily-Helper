@@ -42,12 +42,12 @@ namespace DailyHelperAgentService
 
             Uri[] address_base = { new Uri(address_HTTP), new Uri(address_TCP) };
 
-            _serviceHost = new ServiceHost(typeof(DailyHelperAgentLib.ProcessService), address_base);
+            _serviceHost = new ServiceHost(typeof(DailyHelperAgentLib.AgentService), address_base);
 
             _serviceHost.Description.Behaviors.Add(new ServiceMetadataBehavior());
 
             BasicHttpBinding binding_http = new BasicHttpBinding();
-            _serviceHost.AddServiceEndpoint(typeof(DailyHelperAgentLib.IProcessService), binding_http, address_HTTP);
+            _serviceHost.AddServiceEndpoint(typeof(DailyHelperAgentLib.IAgentService), binding_http, address_HTTP);
             _serviceHost.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
 
             NetTcpBinding binding_tcp = new NetTcpBinding();
@@ -56,7 +56,7 @@ namespace DailyHelperAgentService
             binding_tcp.Security.Message.ClientCredentialType = MessageCredentialType.Windows;
             binding_tcp.Security.Transport.ProtectionLevel = System.Net.Security.ProtectionLevel.EncryptAndSign;
 
-            _serviceHost.AddServiceEndpoint(typeof(DailyHelperAgentLib.IProcessService), binding_tcp, address_TCP);
+            _serviceHost.AddServiceEndpoint(typeof(DailyHelperAgentLib.IAgentService), binding_tcp, address_TCP);
             _serviceHost.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexTcpBinding(), "mex");
 
             _serviceHost.Open();

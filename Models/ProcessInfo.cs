@@ -61,7 +61,7 @@ namespace Daily_Helper.Models
         {
             var processInfoList = new List<ProcessInfo>();
 
-            using (var client = new ProcessServiceClient(
+            using (var client = new AgentServiceClient(
                 new NetTcpBinding(),
                 new EndpointAddress(@"net.tcp://" + computerName + @":9002/DailyHelperAgent")))
             {

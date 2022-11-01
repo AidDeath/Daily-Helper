@@ -86,11 +86,11 @@ namespace Daily_Helper.ViewModels
 
             NetTcpBinding binding = new();             
 
-            var client = new ProcessServiceClient(binding, endpoint);
+            var client = new AgentServiceClient(binding, endpoint);
 
             var testValue = client.GetProcessList();
             var testvalue2 = client.GetProcessState("miranda32");
-            var testvalue3 = client.GetProcessState("FMM");
+            var testvalue3 = client.GetDrivesFreeSpace();
 
             Console.WriteLine(testValue + " " + testvalue2);
 

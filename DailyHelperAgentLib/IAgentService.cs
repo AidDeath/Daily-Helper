@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -8,7 +9,7 @@ using System.Text;
 namespace DailyHelperAgentLib
 {
     [ServiceContract]
-    public interface IProcessService
+    public interface IAgentService
     {
         /// <summary>
         /// Get process list from machine running this service
@@ -24,6 +25,31 @@ namespace DailyHelperAgentLib
         /// <returns></returns>
         [OperationContract]
         ProcessState GetProcessState(string processName);
+
+        [OperationContract]
+        List<DriveFreeSpace> GetDrivesFreeSpace();
+
+    }
+
+    [DataContract]
+    public class DriveFreeSpace
+    {
+        private string name;
+        private long freeSpace;
+
+        [DataMember]
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
+        [DataMember]
+        public long FreeSpace
+        {
+            get => freeSpace;
+            set => freeSpace = value;
+        }
     }
 
     [DataContract]
@@ -54,8 +80,4 @@ namespace DailyHelperAgentLib
             set => isResponding = value;
         }
     }
-
-
-
-
 }
