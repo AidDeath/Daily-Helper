@@ -41,7 +41,7 @@ namespace Daily_Helper.Models
 
         private bool _isSelected;
         /// <summary>
-        /// Is this share selected in list
+        /// Is this service selected in list
         /// </summary>
         public bool IsSelected
         {

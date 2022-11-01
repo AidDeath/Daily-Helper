@@ -11,7 +11,8 @@ namespace Daily_Helper.Helpers.Enums
         ConnectToPort,
         Ping,
         FileShare,
-        ServiceState
+        ServiceState,
+        ProcessState
     }
 
     /// <summary>
@@ -24,7 +25,8 @@ namespace Daily_Helper.Helpers.Enums
             { RoutineTypes.ConnectToPort, "Проверка подключения на порт" },
             { RoutineTypes.FileShare, "Проверка файловых шар" },
             { RoutineTypes.Ping, "Проверка доступности хоста (ping)" },
-            {RoutineTypes.ServiceState, "Проверка состояния службы" }
+            { RoutineTypes.ServiceState, "Проверка состояния службы" },
+            { RoutineTypes.ProcessState, "Проверка состояния процесса" }
         };
     }
 

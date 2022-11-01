@@ -64,6 +64,10 @@ namespace Daily_Helper.ViewModels
                         vm.ServiceStateRoutine.WatchedServices = new(vm.AvailableServcies.Where(service => service.IsSelected));
                         Routines.Add(vm.ServiceStateRoutine);
                         break;
+                    case Helpers.Enums.RoutineTypes.ProcessState:
+                        vm.ProcessStateRoutine.WatchingProcesses = new(vm.AvailableProcesses.Where(proc => proc.IsSelected));
+                        Routines.Add(vm.ProcessStateRoutine);
+                        break;
                     default:
                         break;
                 }
@@ -76,7 +80,7 @@ namespace Daily_Helper.ViewModels
         {
             // FOR TESTS FOR NOW
 
-            var computerName = "localhost";
+            var computerName = "F506-SR-DOC";
 
             EndpointAddress endpoint = new EndpointAddress(@"net.tcp://" + computerName + @":9002/DailyHelperAgent");
 
@@ -86,6 +90,7 @@ namespace Daily_Helper.ViewModels
 
             var testValue = client.GetProcessList();
             var testvalue2 = client.GetProcessState("miranda32");
+            var testvalue3 = client.GetProcessState("FMM");
 
             Console.WriteLine(testValue + " " + testvalue2);
 

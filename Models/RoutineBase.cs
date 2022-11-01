@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Daily_Helper.Models
 {
+    /// <summary>
+    /// Object that represents routine task
+    /// </summary>
     public abstract class RoutineBase : ValidatingObservableObject //ObservableObject
     {
 

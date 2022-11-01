@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,11 +40,13 @@ namespace Daily_Helper.ViewModels
             PingRoutine = new("localhost");
             FileShareRoutine = new();
             ServiceStateRoutine = new();
+            ProcessStateRoutine = new();
             
 
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
             SelectSharesCommand = new RelayCommand(OnSelectSharesCommandExecuted, CanSelectSharesCommandExecute);
             SelectServicesCommand = new RelayCommand(OnSelectServicesCommandExecuted, CanSelectServicesCommandExecute);
+            SelectProcessCommand = new RelayCommand(OnSelectProcessCommandExecuted, CanSelectProcessCommandExecute);
 
             SetPortCommand = new RelayCommand(OnSetPortCommandExecuted);
             
@@ -89,6 +92,8 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _availableShares, value);
         }
 
+        #region Servces State
+
         private ServiceStateRoutine _serviceStateRoutine;
         public ServiceStateRoutine ServiceStateRoutine
         {
@@ -111,6 +116,32 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _availableServcies, value);
         }
 
+        #endregion
+
+        #region Processes State
+
+        private ProcessStateRoutine _processStateRoutine;
+        public ProcessStateRoutine ProcessStateRoutine
+        {
+            get => _processStateRoutine;
+            set => SetProperty(ref _processStateRoutine, value);
+        }
+
+        private bool _isProcessSelecting;
+        public bool IsProcessSelecting
+        {
+            get => _isProcessSelecting;
+            set => SetProperty(ref _isProcessSelecting, value);
+        }
+
+        private ObservableCollection<ProcessInfo> _availableProcesses;
+        public ObservableCollection<ProcessInfo> AvailableProcesses
+        {
+            get => _availableProcesses;
+            set => SetProperty(ref _availableProcesses, value);
+        }
+
+        #endregion
 
         private ConnPortRoutine _connPortRoutine;
         public ConnPortRoutine ConnPortRoutine
@@ -142,6 +173,8 @@ namespace Daily_Helper.ViewModels
                     return IsSharesSelecting && AvailableShares.Any(share => share.IsSelected);
                 case RoutineTypes.ServiceState:
                     return IsServiceSelecting && AvailableServcies.Any(service => service.IsSelected);
+                case RoutineTypes.ProcessState:
+                    return IsProcessSelecting && AvailableProcesses.Any(service => service.IsSelected);
                 case RoutineTypes.ConnectToPort:
                     return !ConnPortRoutine.HasErrors && !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
                 default:
@@ -177,7 +210,6 @@ namespace Daily_Helper.ViewModels
 
 
         public IRaisedCommand SelectServicesCommand { get; }
-
         private void OnSelectServicesCommandExecuted(object obj)
         {
             try
@@ -193,13 +225,35 @@ namespace Daily_Helper.ViewModels
             }
 
         }
-
         private bool CanSelectServicesCommandExecute(object obj)
         {
             var a = !string.IsNullOrWhiteSpace(ServiceStateRoutine.Server);
             return !string.IsNullOrWhiteSpace(ServiceStateRoutine.Server);
         }
 
+        public IRaisedCommand SelectProcessCommand { get; }
+        private void OnSelectProcessCommandExecuted(object obj)
+        {
+            try
+            {
+                if (IsProcessSelecting == false)
+                    AvailableProcesses = new(ProcessInfo.GetAllProcessInfo(ProcessStateRoutine.Server));
+
+                IsProcessSelecting = !IsProcessSelecting;
+            }
+            catch (CommunicationObjectFaultedException)
+            {
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: \n Не найден компьютер с таким именем, либо не запущен Daily Helper Agent", MessageType.Error));
+            }
+            catch (Exception e)
+            {
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
+            }
+        }
+        private bool CanSelectProcessCommandExecute(object obj)
+        {
+            return !string.IsNullOrWhiteSpace(ProcessStateRoutine.Server);
+        }
 
 
         public IRaisedCommand SetPortCommand { get; }
