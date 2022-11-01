@@ -60,7 +60,7 @@ namespace Daily_Helper.Services
                     if (routine.IsActivated)
                     {
                         routine.LastExecutted = DateTime.Now;
-                        await routine.ExecuteRoutineTest();
+                        await Task.Run(routine.ExecuteRoutineTest);
                     }
                         
                 }

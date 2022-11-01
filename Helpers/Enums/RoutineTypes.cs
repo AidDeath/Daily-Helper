@@ -12,7 +12,8 @@ namespace Daily_Helper.Helpers.Enums
         Ping,
         FileShare,
         ServiceState,
-        ProcessState
+        ProcessState,
+        DriveFreeSpace
     }
 
     /// <summary>
@@ -26,7 +27,8 @@ namespace Daily_Helper.Helpers.Enums
             { RoutineTypes.FileShare, "Проверка файловых шар" },
             { RoutineTypes.Ping, "Проверка доступности хоста (ping)" },
             { RoutineTypes.ServiceState, "Проверка состояния службы" },
-            { RoutineTypes.ProcessState, "Проверка состояния процесса" }
+            { RoutineTypes.ProcessState, "Проверка состояния процесса" },
+            { RoutineTypes.DriveFreeSpace, "Проверка места на дисках" }
         };
     }
 

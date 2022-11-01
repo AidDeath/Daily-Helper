@@ -212,7 +212,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="0" Padding="5" >
-                            <TextBlock Text="Проверяется состояние процесса, запущенного на удалённой машине. Для работы проверки зависания необходимо установить службу Daily Helper Agent на целевую машину" TextWrapping="Wrap"/>
+                            <TextBlock Text="Проверяется состояние процесса, запущенного на удалённой машине. Для работы проверки зависания необходима работающая служба Daily Helper Agent на целевой машине" TextWrapping="Wrap"/>
                         </materialDesign:Card>
                         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
@@ -258,6 +258,23 @@
 
                     </Grid>
 
+                </StackPanel>
+                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.DriveFreeSpace}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="5">
+                            <TextBlock Text="Проверяется количество свободного места на локальных дисках. Необходима работающая служба Daily Helper Agent на целевой машине " TextWrapping="Wrap"/>
+                        </materialDesign:Card>
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding DriveFreeSpaceRoutine.Server, UpdateSourceTrigger=PropertyChanged}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
+                    </Grid>
                 </StackPanel>
 
             </StackPanel>

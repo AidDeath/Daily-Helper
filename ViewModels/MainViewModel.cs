@@ -68,6 +68,9 @@ namespace Daily_Helper.ViewModels
                         vm.ProcessStateRoutine.WatchingProcesses = new(vm.AvailableProcesses.Where(proc => proc.IsSelected));
                         Routines.Add(vm.ProcessStateRoutine);
                         break;
+                    case Helpers.Enums.RoutineTypes.DriveFreeSpace:
+                        Routines.Add(vm.DriveFreeSpaceRoutine);
+                        break;
                     default:
                         break;
                 }

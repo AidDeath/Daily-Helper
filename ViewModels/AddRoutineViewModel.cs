@@ -4,6 +4,7 @@ using Daily_Helper.Helpers.Enums;
 using Daily_Helper.Models;
 using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
+using DailyHelperAgentLib;
 using MaterialDesignExtensions.Controls;
 using MaterialDesignThemes.Wpf;
 using System;
@@ -41,6 +42,8 @@ namespace Daily_Helper.ViewModels
             FileShareRoutine = new();
             ServiceStateRoutine = new();
             ProcessStateRoutine = new();
+            DriveFreeSpaceRoutine = new();
+            
             
 
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
@@ -150,6 +153,15 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _connPortRoutine, value);
         }
 
+        private DriveFreeSpaceRoutine driveFreeSpaceRoutine;
+        public DriveFreeSpaceRoutine DriveFreeSpaceRoutine
+        {
+            get => driveFreeSpaceRoutine;
+            set => SetProperty(ref driveFreeSpaceRoutine, value);
+        }
+
+
+
 
         public IRaisedCommand SubmitChangesCommand { get; }
         /// <summary>
@@ -174,9 +186,11 @@ namespace Daily_Helper.ViewModels
                 case RoutineTypes.ServiceState:
                     return IsServiceSelecting && AvailableServcies.Any(service => service.IsSelected);
                 case RoutineTypes.ProcessState:
-                    return IsProcessSelecting && AvailableProcesses.Any(service => service.IsSelected);
+                    return IsProcessSelecting && AvailableProcesses.Any(proc => proc.IsSelected);
                 case RoutineTypes.ConnectToPort:
                     return !ConnPortRoutine.HasErrors && !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
+                case RoutineTypes.DriveFreeSpace:
+                    return !DriveFreeSpaceRoutine.HasErrors;
                 default:
                     return false;
             }

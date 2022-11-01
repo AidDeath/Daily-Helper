@@ -62,8 +62,8 @@
                 <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Проверено" 
                                     Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"
-                                    IsReadOnly="True" MaxWidth="150"/>
-                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}" IsReadOnly="True" MaxWidth="150"/>
+                                    IsReadOnly="True" Width="130" CanUserResize="False"/>
+                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}" IsReadOnly="True" Width="130" CanUserResize="False"/>
             </DataGrid.Columns>
 
         </DataGrid>
