@@ -136,7 +136,7 @@
                                 <Button Content="FTP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="21"/>
                                 <Button Content="Radius" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="24554"/>
                                 <Button Content="MSSQL" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="1433"/>
-                                <Button Content="RDP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="21"/>
+                                <Button Content="RDP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="3389"/>
                             </WrapPanel>
                         </GroupBox>
                     </Grid>
