@@ -17,7 +17,7 @@ namespace Daily_Helper.Views
     /// <summary>
     /// Interaction logic for AddRoutineWindow.xaml
     /// </summary>
-    public partial class AddRoutineWindow : Window
+    public partial class AddRoutineWindow : UserControl
     {
         public AddRoutineWindow()
         {

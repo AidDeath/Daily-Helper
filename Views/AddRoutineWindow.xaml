@@ -1,10 +1,10 @@
-﻿<Window x:Class="Daily_Helper.Views.AddRoutineWindow"
+﻿<UserControl x:Class="Daily_Helper.Views.AddRoutineWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="600" Width="450"
+        Height="450" Width="450"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
         xmlns:models="clr-namespace:Daily_Helper.Models"
@@ -18,13 +18,12 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:AddRoutineViewModel}}" 
-        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" WindowStyle="ToolWindow">
-    <Window.Resources>
+        d:DataContext ="{d:DesignInstance {x:Type vml:AddRoutineViewModel}}" >
+    <UserControl.Resources>
         <conv:RoutineTypeToVisibilityConverter x:Key="RoutineTypeToVisibilityConverter"/>
         <conv:StringToIntConverter x:Key="StringToIntConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </Window.Resources>
+    </UserControl.Resources>
     <Grid Margin="5">
         <!--DialogHost must be loaded in window, in order to show dialogs-->
         <materialDesign:DialogHost CloseOnClickAway="True" Identifier="MaterialMessageBox" Panel.ZIndex="1"/>
@@ -281,4 +280,4 @@
 
         </DockPanel>
     </Grid>
-</Window>
+</UserControl>

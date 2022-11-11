@@ -170,9 +170,11 @@ namespace Daily_Helper.ViewModels
         /// <param name="obj"></param>
         private void OnSubmitChangesCommandExecuted(object obj)
         {
-            var wnd = GetCurrentWindow();
-            wnd.DialogResult = true;
-            wnd.Close();
+            //var wnd = GetCurrentWindow();
+            //wnd.DialogResult = true;
+            //wnd.Close();
+
+            DialogHost.Close("AddRoutinesDialogHost", this);
         }
 
         private bool CanSubmitChangesCommandExecute(object obj)
@@ -212,6 +214,7 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
+                //TODO: Remove dialoghost calling. It won't work inside another dialog
                 DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ;
             }
 
@@ -235,6 +238,8 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
+
+                //TODO: Remove dialoghost calling. It won't work inside another dialog
                 DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
             }
 
@@ -257,10 +262,12 @@ namespace Daily_Helper.ViewModels
             }
             catch (CommunicationObjectFaultedException)
             {
+                //TODO: Remove dialoghost calling. It won't work inside another dialog
                 DialogHost.Show(MaterialMessageBox.Create($"Ошибка: \n Не найден компьютер с таким именем, либо не запущен Daily Helper Agent", MessageType.Error));
             }
             catch (Exception e)
             {
+                //TODO: Remove dialoghost calling. It won't work inside another dialog
                 DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
             }
         }

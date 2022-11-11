@@ -28,6 +28,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="MaterialSettingsDialogHost" Panel.ZIndex="1"/>
+        <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="AddRoutinesDialogHost" Panel.ZIndex="1"/>
         <Menu Grid.Row="0">
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
