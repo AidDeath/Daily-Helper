@@ -27,7 +27,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu>
+        <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="MaterialSettingsDialogHost" Panel.ZIndex="1"/>
+        <Menu Grid.Row="0">
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
                     <MenuItem Header="Добавить проверку" Command="{Binding ShowAddRoutineWindowCommand}"/>
@@ -39,7 +40,6 @@
                     <MenuItem Header="Добавить задание" Command="{Binding AddNewConnPortCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
-            
         </Menu>
 
 

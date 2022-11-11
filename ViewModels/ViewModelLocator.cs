@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 
@@ -47,14 +48,21 @@ namespace Daily_Helper.ViewModels
             {
                 viewName = viewType.FullName
                     .Replace("Window", string.Empty)
-                    .Replace("Views", "ViewModels");
+                    .Replace(".Views.", ".ViewModels."); //set vm namespace
             }
 
             if (viewType.FullName.EndsWith("View"))
             {
-                viewName = viewType.FullName
-                    .Replace("View", string.Empty)
-                    .Replace("Views", "ViewModels");
+
+
+                var nsNames = viewType.FullName.Split('.').ToList();
+                nsNames[^1]= nsNames[^1].Replace("View", string.Empty);
+
+                viewName = nsNames
+                    .Aggregate((a, b) => $"{a}.{b}")
+                    .Replace(".Dialogs", string.Empty) // ViewModels for dialogs are in same NS as all others
+                    .Replace(".Views.", ".ViewModels.");
+
             }
 
             var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;

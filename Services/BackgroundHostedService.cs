@@ -15,15 +15,17 @@ namespace Daily_Helper.Services
     {
         private readonly ILogger<BackgroundHostedService> _logger;
         private RoutineTestsProvider _routineTests;
+        private readonly SettingsSingleton _settings;
 
 
-        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests )
+        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests, SettingsSingleton settings)
         {
             _logger = logger;
 
             _logger.LogInformation("Background service started...");
 
             _routineTests = routineTests;
+            _settings = settings;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -51,7 +53,7 @@ namespace Daily_Helper.Services
 
         private async Task Payload()
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(_settings.CheckInterval));
 
             if (_routineTests != null && _routineTests.Routines.Count > 0)
             {

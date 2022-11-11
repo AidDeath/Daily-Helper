@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Daily_Helper.Views.Dialogs.SettingsDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Daily_Helper.Views"
+        mc:Ignorable="d"
+        Height="223" Width="444"
+        xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
+        xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
+        xmlns:models="clr-namespace:Daily_Helper.Models"
+        xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        vml:ViewModelLocator.AutoWireViewModel="True"
+        d:DataContext ="{d:DesignInstance {x:Type vml:SettingsViewModel}}">
+    <DockPanel Margin="20">
+        <Button DockPanel.Dock="Bottom" Content="Сохранить" Command="{Binding SubmitChangesCommand}"  />
+        <Grid Margin="0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Интервал запуска проверок, минут" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Slider Name="Slider"  Value="{Binding CheckInterval, Mode=TwoWay}" materialDesign:HintAssist.Hint="Минут" Minimum="1" Maximum="60" Width="100"/>
+                <Label Target="{Binding ElementName=Slider}" Content="{Binding CheckInterval}" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+        </Grid>
+    </DockPanel>
+</UserControl>

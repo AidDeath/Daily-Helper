@@ -3,6 +3,8 @@ using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Models;
 using Daily_Helper.Services;
 using Daily_Helper.Views;
+using Daily_Helper.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -81,24 +83,17 @@ namespace Daily_Helper.ViewModels
 
         private void OnShowSettingsWindowCommandExected(object obj)
         {
-            // FOR TESTS FOR NOW
 
-            var computerName = "F506-SR-DOC";
+            //var wnd = new SettingsWindow()
+            //{
+            //    Owner = GetCurrentWindow()
+            //};
 
-            EndpointAddress endpoint = new EndpointAddress(@"net.tcp://" + computerName + @":9002/DailyHelperAgent");
+            //var vm = wnd.DataContext as SettingsViewModel;
 
-            NetTcpBinding binding = new();             
+            //var result = wnd.ShowDialog();
 
-            var client = new AgentServiceClient(binding, endpoint);
-
-            var testValue = client.GetProcessList();
-            var testvalue2 = client.GetProcessState("miranda32");
-            var testvalue3 = client.GetDrivesFreeSpace();
-
-            Console.WriteLine(testValue + " " + testvalue2);
-
+            DialogHost.Show(new SettingsDialogView(), "MaterialSettingsDialogHost");
         }
-
-
     }
 }

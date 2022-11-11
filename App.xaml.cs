@@ -37,6 +37,7 @@ namespace Daily_Helper
 
             //Add hosted setvice and variable provider
             services.AddSingleton<RoutineTestsProvider>();
+            services.AddSingleton<SettingsSingleton>();
             services.AddHostedService<BackgroundHostedService>();
         }
 
