@@ -2,20 +2,13 @@
 using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Helpers.Enums;
 using Daily_Helper.Models;
-using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
-using DailyHelperAgentLib;
-using MaterialDesignExtensions.Controls;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace Daily_Helper.ViewModels
 {
@@ -47,6 +40,7 @@ namespace Daily_Helper.ViewModels
             
 
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
+            CancelAddingRoutineCommand = new RelayCommand(OnCancelAddingRoutineCommand);
             SelectSharesCommand = new RelayCommand(OnSelectSharesCommandExecuted, CanSelectSharesCommandExecute);
             SelectServicesCommand = new RelayCommand(OnSelectServicesCommandExecuted, CanSelectServicesCommandExecute);
             SelectProcessCommand = new RelayCommand(OnSelectProcessCommandExecuted, CanSelectProcessCommandExecute);
@@ -177,6 +171,16 @@ namespace Daily_Helper.ViewModels
             DialogHost.Close("AddRoutinesDialogHost", this);
         }
 
+        public IRaisedCommand CancelAddingRoutineCommand { get; }
+        /// <summary>
+        /// close window without saving
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnCancelAddingRoutineCommand(object obj)
+        {
+            DialogHost.Close("AddRoutinesDialogHost");
+        }
+
         private bool CanSubmitChangesCommandExecute(object obj)
         {
             switch (RoutineType)
@@ -214,8 +218,7 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
-                //TODO: Remove dialoghost calling. It won't work inside another dialog
-                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error)) ;
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox") ;
             }
 
         }
@@ -238,9 +241,7 @@ namespace Daily_Helper.ViewModels
             }
             catch (Exception e)
             {
-
-                //TODO: Remove dialoghost calling. It won't work inside another dialog
-                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
             }
 
         }
@@ -262,13 +263,11 @@ namespace Daily_Helper.ViewModels
             }
             catch (CommunicationObjectFaultedException)
             {
-                //TODO: Remove dialoghost calling. It won't work inside another dialog
-                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: \n Не найден компьютер с таким именем, либо не запущен Daily Helper Agent", MessageType.Error));
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: \n Не найден компьютер с таким именем, либо не запущен Daily Helper Agent", MessageType.Error), "MaterialMessageBox");
             }
             catch (Exception e)
             {
-                //TODO: Remove dialoghost calling. It won't work inside another dialog
-                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error));
+                DialogHost.Show(MaterialMessageBox.Create($"Ошибка: {e.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
             }
         }
         private bool CanSelectProcessCommandExecute(object obj)

@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="450" Width="450"
+        Height="Auto" Width="450"
+             d:Height="Auto"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
         xmlns:models="clr-namespace:Daily_Helper.Models"
@@ -24,10 +25,26 @@
         <conv:StringToIntConverter x:Key="StringToIntConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    <Grid Margin="5">
+    <Grid>
         <!--DialogHost must be loaded in window, in order to show dialogs-->
-        <materialDesign:DialogHost CloseOnClickAway="True" Identifier="MaterialMessageBox" Panel.ZIndex="1"/>
-        <DockPanel >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:DialogHost CloseOnClickAway="True" Identifier="MaterialMessageBox" Panel.ZIndex="1" Grid.RowSpan="2"/>
+
+        <Grid Grid.Row="0" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding Title}"/>
+            <Button Grid.Column="1" HorizontalAlignment="Right" Command="{Binding CancelAddingRoutineCommand}" Style="{StaticResource MaterialDesignToolButton}">
+                <materialDesign:PackIcon Kind="CloseOutline"/>
+            </Button>
+        </Grid>
+        <DockPanel Grid.Row="1" Margin="5">
             <ComboBox ItemsSource="{Binding Descriptions}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding RoutineType}" 
                       DockPanel.Dock="Top" materialDesign:HintAssist.Hint="Выбор типа задания" Style="{StaticResource MaterialDesignFilledComboBox}"/>
             <Button DockPanel.Dock="Bottom" Content="Создать" Command="{Binding SubmitChangesCommand}"  />
@@ -136,6 +153,7 @@
                                 <Button Content="Radius" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="24554"/>
                                 <Button Content="MSSQL" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="1433"/>
                                 <Button Content="RDP" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="3389"/>
+                                <Button Content="KSC" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding SetPortCommand}" CommandParameter="13291"/>
                             </WrapPanel>
                         </GroupBox>
                     </Grid>

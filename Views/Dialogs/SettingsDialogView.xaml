@@ -19,7 +19,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:SettingsViewModel}}">
+        d:DataContext ="{d:DesignInstance {x:Type vml:SettingsDialogViewModel}}">
     <DockPanel Margin="20">
         <Button DockPanel.Dock="Bottom" Content="Сохранить" Command="{Binding SubmitChangesCommand}"  />
         <Grid Margin="0,5">
@@ -32,13 +32,16 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Интервал запуска проверок, минут" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Интервал запуска проверок, секунд" HorizontalAlignment="Center"/>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Slider Name="Slider"  Value="{Binding CheckInterval, Mode=TwoWay}" materialDesign:HintAssist.Hint="Минут" Minimum="1" Maximum="60" Width="100"/>
                 <Label Target="{Binding ElementName=Slider}" Content="{Binding CheckInterval}" VerticalAlignment="Center"/>
+                <!--<materialDesign:TimePicker Width="50" />-->
             </StackPanel>
+
             
+
         </Grid>
     </DockPanel>
 </UserControl>
