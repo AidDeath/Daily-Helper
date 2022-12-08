@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.ServiceProcess;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Daily_Helper.Models
@@ -11,9 +12,9 @@ namespace Daily_Helper.Models
     public class ServiceStateRoutine : RoutineBase
     {
 
-        //public ServiceStateRoutine()
-        //{
-        //}
+        public ServiceStateRoutine()
+        {
+        }
 
         private string _server;
         public string Server
@@ -33,7 +34,6 @@ namespace Daily_Helper.Models
             get => _watchedServices;
             set => SetProperty(ref _watchedServices, value);
         }
-
 
         public override string Description => $"Состояние служб на {Server}";
 

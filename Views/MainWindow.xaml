@@ -16,7 +16,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" >
+        d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" WindowStartupLocation="CenterScreen" >
     <Window.Resources>
         <conv:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
         <conv:DateTimeToSpanStringConverter x:Key="DateTimeToSpanStringConverter"/>
@@ -38,7 +38,7 @@
             </MenuItem>
             <MenuItem Header="Логи" >
                 <MenuItem.Items>
-                    <MenuItem Header="Добавить задание" Command="{Binding AddNewConnPortCommand}"/>
+                    <MenuItem Header="Добавить задание" Command="{Binding ShowLogsCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>

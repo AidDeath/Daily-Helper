@@ -6,9 +6,13 @@ using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Common;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.ServiceModel;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Daily_Helper.ViewModels
@@ -32,6 +36,7 @@ namespace Daily_Helper.ViewModels
 
             ShowAddRoutineWindowCommand = new AsyncRelayCommand(OnShowAddRoutineWindowCommandExecuted);
             ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
+            ShowLogsCommand = new RelayCommand(OnShowLogsCommandExecuted);
         }
 
 
@@ -126,6 +131,23 @@ namespace Daily_Helper.ViewModels
             //var result = wnd.ShowDialog();
 
             DialogHost.Show(new SettingsDialogView(), "MaterialSettingsDialogHost");
+        }
+
+        public IRaisedCommand ShowLogsCommand { get; }
+
+        private void OnShowLogsCommandExecuted(object obj)
+        {
+            //FOR TESTS
+
+            //DataContractJsonSerializerSettings asd = new() { EmitTypeInformation = System.Runtime.Serialization.EmitTypeInformation.Always };
+
+            var serializedRoutine = _routines.FirstOrDefault()?.GetSerialized();
+
+            if (serializedRoutine?.Type is not null && serializedRoutine.JsonString is not null)
+            {
+                var a = JsonSerializer.Deserialize(serializedRoutine.JsonString, serializedRoutine.Type);
+            }
+            
         }
     }
 }

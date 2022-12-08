@@ -3,6 +3,11 @@ using Daily_Helper.Services;
 using Daily_Helper.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.CodeDom;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Runtime.Serialization.Json;
+using System.Text.Json;
 using System.Windows;
 
 namespace Daily_Helper
@@ -30,6 +35,7 @@ namespace Daily_Helper
             services.AddSingleton<MainWindow>();
 
             //Here we add services
+            services.AddScoped<RoutinesSaveLoadService>();
 
 
             //Here we add database context
@@ -41,11 +47,48 @@ namespace Daily_Helper
             services.AddHostedService<BackgroundHostedService>();
         }
 
-        private void OnStartup(object sender, StartupEventArgs e)
+        private async void OnStartup(object sender, StartupEventArgs e)
         {
             AppHost.Start();
             var mainWindow = AppHost.Services.GetService<MainWindow>();
+
+            var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
+            if (saveLoadService is not null)
+            {
+                var loadedRoutines = await saveLoadService.LoadAndDeserialize();
+                if (loadedRoutines is not null && loadedRoutines.Count > 0)
+                {
+                    var routines = AppHost.Services.GetService<RoutineTestsProvider>()?.Routines;
+                   
+                    foreach (var routine in loadedRoutines)
+                        if (routine?.Type is not null && routine.JsonString is not null)
+                        {
+                            routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
+                        }
+                }
+
+            }
+                
+
             mainWindow?.Show();
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            //var provider =  AppHost.Services.GetService<RoutineTestsProvider>();
+            //var jsonstring = JsonSerializer.Serialize<IEnumerable<RoutineBase>>(provider.Routines);
+
+            var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
+
+            if (saveLoadService is not null)
+                await saveLoadService.SerializeAndSave();
+
+            base.OnExit(e);
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            
         }
     }
 }

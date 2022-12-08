@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace Daily_Helper.ViewModels
 {
+    /// <summary>
+    /// Class for creating and auto-assignment of a View Model as View's DataContext property
+    /// </summary>
     public class ViewModelLocator
     {
         public static DependencyProperty AutoWireViewModelProperty = DependencyProperty.RegisterAttached("AutoWireViewModel", typeof(bool),

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.Json.Serialization;
 using Daily_Helper.Helpers;
 
 namespace Daily_Helper.Models
@@ -137,6 +138,7 @@ namespace Daily_Helper.Models
         /// <summary>
         /// Get the root of a disk-based share
         /// </summary>
+        [JsonIgnore]
         public DirectoryInfo? Root => IsFileSystem ? new DirectoryInfo(ToString()) : null;
 
 

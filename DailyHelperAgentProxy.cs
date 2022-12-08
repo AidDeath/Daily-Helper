@@ -11,7 +11,7 @@
 namespace DailyHelperAgentLib
 {
     using System.Runtime.Serialization;
-
+    using System.Text.Json.Serialization;
 
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -84,13 +84,14 @@ namespace DailyHelperAgentLib
     [System.Runtime.Serialization.DataContractAttribute(Name = "DriveFreeSpace", Namespace = "http://schemas.datacontract.org/2004/07/DailyHelperAgentLib")]
     public partial class DriveFreeSpace : object, System.Runtime.Serialization.IExtensibleDataObject
     {
-
+        
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
 
         private long FreeSpaceField;
 
         private string NameField;
 
+        [JsonIgnore]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData
         {
             get

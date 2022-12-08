@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Daily_Helper.Models
@@ -11,6 +13,11 @@ namespace Daily_Helper.Models
     /// </summary>
     public abstract class RoutineBase : ValidatingObservableObject //ObservableObject
     {
+        public RoutineBase()
+        {
+            IsActivated = true;
+        }
+
 
         private bool _isActivated;
 
@@ -44,6 +51,7 @@ namespace Daily_Helper.Models
         //    set => SetProperty(ref _description, value); 
         //}
 
+        [JsonIgnore]
         public abstract string Description { get; }
 
         private string _result = "Не выполнялось";
@@ -74,16 +82,23 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _lastSucceded, value);
         }
 
-        public RoutineBase()
-        {
-            IsActivated = true;
-        }
 
         /// <summary>
         /// Do the test and refresh info;
         /// </summary>
         /// <returns></returns>
         public abstract Task ExecuteRoutineTest();
+
+        public SerializedRoutine GetSerialized()
+        {
+            var currentType = GetType();
+
+            return new SerializedRoutine()
+            {
+                Type = currentType,
+                JsonString = JsonSerializer.Serialize(this, currentType, new JsonSerializerOptions() { AllowTrailingCommas = true, WriteIndented = true }),
+            };
+        }
 
     }
 }
