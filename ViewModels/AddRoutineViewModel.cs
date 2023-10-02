@@ -35,7 +35,7 @@ namespace Daily_Helper.ViewModels
             FileShareRoutine = new();
             ServiceStateRoutine = new();
             ProcessStateRoutine = new();
-            DriveFreeSpaceRoutine = new("localhost");
+            DriveFreeSpaceRoutine = new("localhost", 10);
             
             
 

@@ -19,9 +19,18 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _server, value);
         }
 
-        public DriveFreeSpaceRoutine(string server)
+        private int _desiredFreeSpaceGb;
+
+        public int DesiredFreeSpaceGb
+        {
+            get => _desiredFreeSpaceGb;
+            set => SetProperty(ref _desiredFreeSpaceGb, value);
+        }
+
+        public DriveFreeSpaceRoutine(string server, int desiredFreeSpaceGb)
         {
             Server = server;
+            DesiredFreeSpaceGb = desiredFreeSpaceGb;
         }
 
         private DriveFreeSpace[] drivesFreeSpace;
@@ -31,7 +40,7 @@ namespace Daily_Helper.Models
             set => SetProperty(ref drivesFreeSpace, value);
         }
 
-        public override string Description => $"Проверка места на дисках на {Server}";
+        public override string Description => $"Проверка места на дисках на {Server} \nПорог: {DesiredFreeSpaceGb} Gb";
         
         public override async Task ExecuteRoutineTest()
         {
@@ -44,10 +53,12 @@ namespace Daily_Helper.Models
                     DrivesFreeSpace = client.GetDrivesFreeSpace();
                 }
 
-                var results = DrivesFreeSpace.Select(df => $"{df.Name} - {Helpers.ShareDetector.GetHumanReadableFreeSpace(df.FreeSpace)}");
+                var results = DrivesFreeSpace.Select(df => $"{df.Name} - {Helpers.ShareDetector.GetHumanReadableFreeSpace(df.FreeSpace)}  свободно");
 
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
-                Success = true;
+
+                //If all of disks are above desired free space - it's ok
+                Success = DrivesFreeSpace.All(a => a.FreeSpace > DesiredFreeSpaceGb * 1024d * 1024d * 1024d);
             }
             catch (CommunicationObjectFaultedException)
             {
