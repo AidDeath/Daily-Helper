@@ -50,7 +50,7 @@ namespace Daily_Helper.Services
             string? fileContent;
             List<SerializedRoutine>? result = new();
 
-            using (var fileStream = new FileStream($"{Environment.CurrentDirectory}/routines.dat", FileMode.Open))
+            using (var fileStream = new FileStream($"{Environment.CurrentDirectory}/routines.dat", FileMode.OpenOrCreate))
             using (var sr = new StreamReader(fileStream))
             {
                 fileContent = await sr.ReadToEndAsync();

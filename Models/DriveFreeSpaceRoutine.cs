@@ -19,6 +19,11 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _server, value);
         }
 
+        public DriveFreeSpaceRoutine(string hostname)
+        {
+            Server = hostname;
+        }
+
         private DriveFreeSpace[] drivesFreeSpace;
         public DriveFreeSpace[] DrivesFreeSpace
         {

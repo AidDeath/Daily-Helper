@@ -21,6 +21,7 @@ namespace Daily_Helper.Helpers.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is null || (DateTime)value == default(DateTime)) return "Никогда";
+            
             var timespan = DateTime.Now - (DateTime)value;
 
             if (timespan < TimeSpan.FromMinutes(1)) 
@@ -29,7 +30,8 @@ namespace Daily_Helper.Helpers.Converters
                     ? "Только что" 
                     : $"{(DateTime)value :dd.MM HH:mm:ss}";
 
-            return $"{timespan.TotalMinutes} мин. назад";
+            //return $"{timespan.TotalMinutes} мин. назад";
+            return $"Давно";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
