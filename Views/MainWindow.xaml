@@ -20,6 +20,11 @@
     <Window.Resources>
         <conv:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
         <conv:DateTimeToSpanStringConverter x:Key="DateTimeToSpanStringConverter"/>
+        
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -59,8 +64,8 @@
 
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Вкл." Binding="{Binding IsActivated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
-                <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Задача" Binding="{Binding Description}" Width="2*" IsReadOnly="True" ElementStyle="{StaticResource WrapText}"/>
+                <DataGridTextColumn Header="Результат" Binding="{Binding Result}" Width="2*" IsReadOnly="True" ElementStyle="{StaticResource WrapText}"/>
                 <DataGridTextColumn Header="Проверено" 
                                     Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"
                                     IsReadOnly="True" Width="130" CanUserResize="False"/>
