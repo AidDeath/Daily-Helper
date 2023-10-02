@@ -17,7 +17,7 @@ namespace Daily_Helper.Models
     {
 
         Ping pingSender = new Ping();
-        PingOptions pingOptions = new PingOptions() {  DontFragment = true, Ttl = 128};
+        //PingOptions pingOptions = new PingOptions() {  DontFragment = true, Ttl = 128};
 
         private string _hostname;
         [MinLength(1, ErrorMessage ="Укажите хост")]

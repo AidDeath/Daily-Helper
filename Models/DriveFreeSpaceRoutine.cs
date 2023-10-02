@@ -19,9 +19,9 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _server, value);
         }
 
-        public DriveFreeSpaceRoutine(string hostname)
+        public DriveFreeSpaceRoutine(string server)
         {
-            Server = hostname;
+            Server = server;
         }
 
         private DriveFreeSpace[] drivesFreeSpace;
@@ -51,7 +51,7 @@ namespace Daily_Helper.Models
             }
             catch (CommunicationObjectFaultedException)
             {
-                Result = "Не удалась связаться с Агентом";
+                Result = "Не удалось связаться с Агентом";
                 Success = false;
             }
             catch (Exception e)

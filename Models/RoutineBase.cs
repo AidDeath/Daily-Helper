@@ -24,20 +24,24 @@ namespace Daily_Helper.Models
         public bool IsActivated
         {
             get => _isActivated;
-            set => SetProperty(ref _isActivated, value);
+            set
+            {
+                SetProperty(ref _isActivated, value);
+                if (!value) Success = null; 
+            }
         }
 
-        private bool _success;
+        private bool? _success;
         /// <summary>
         /// Result of routine test
         /// </summary>
-        public bool Success 
+        public bool? Success 
         {
             get => _success;
             set
             {
                 SetProperty(ref _success, value);
-                if (value) LastSucceeded = DateTime.Now;
+                if (value == true) LastSucceeded = DateTime.Now;
             }
         }
 

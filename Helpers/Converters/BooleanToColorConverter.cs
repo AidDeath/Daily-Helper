@@ -13,6 +13,8 @@ namespace Daily_Helper.Helpers.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is null) return new SolidColorBrush(Colors.White);
+
             if ((bool)value)
             {
                 return new SolidColorBrush(Colors.LightGreen);
