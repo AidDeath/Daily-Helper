@@ -79,7 +79,7 @@ namespace Daily_Helper.Models
         }
 
         private DateTime _lastSucceded;
-
+        // TODO: Remove this prop later. It is not needed.
         public DateTime LastSucceeded
         {
             get => _lastSucceded;

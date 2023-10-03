@@ -69,11 +69,20 @@
                 <DataGridTextColumn Header="Проверено" 
                                     Binding="{Binding LastExecutted, Converter={StaticResource DateTimeToSpanStringConverter}, ConverterParameter={x:Static conv:SpanTextType.Exact}}"
                                     IsReadOnly="True" Width="130" CanUserResize="False"/>
-                <DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}" IsReadOnly="True" Width="130" CanUserResize="False"/>
+                <!--<DataGridTextColumn Header="Успешно" Binding="{Binding LastSucceeded, Converter={StaticResource DateTimeToSpanStringConverter}}" IsReadOnly="True" Width="130" CanUserResize="False"/>-->
+                <DataGridTemplateColumn Header="Удалить">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                ToolTip="Resource name: MaterialDesignRaisedButton"
+                                Content="Удалить" 
+                                Command="{Binding Path=DataContext.RemoveRoutineCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}"
+                                />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
 
         </DataGrid>
-            
-
     </Grid>
 </Window>
