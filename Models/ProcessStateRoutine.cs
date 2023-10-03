@@ -22,11 +22,11 @@ namespace Daily_Helper.Models
 
         private IEnumerable<string> _allProcesses;
 
-        private ObservableCollection<ProcessInfo>? _watchingProcesses;
+        private ObservableRangeCollection<ProcessInfo>? _watchingProcesses;
         /// <summary>
         /// File shares that would be checking in routine
         /// </summary>
-        public ObservableCollection<ProcessInfo>? WatchingProcesses
+        public ObservableRangeCollection<ProcessInfo>? WatchingProcesses
         {
             get => _watchingProcesses;
             set => SetProperty(ref _watchingProcesses, value);
@@ -39,9 +39,10 @@ namespace Daily_Helper.Models
             var results = new List<string>();
             try
             {
+                RefreshWatchingProcesses();
                 foreach (var processInfo in WatchingProcesses)
                 {
-                    RefreshProcessInfo(processInfo);
+                    //RefreshProcessInfo(processInfo);
 
                     var text = processInfo.IsFound
                         ? processInfo.IsResponding 
@@ -51,7 +52,7 @@ namespace Daily_Helper.Models
                     results.Add($"{processInfo.Name} - {text}");
                 }
 
-                Success = true;
+                Success = WatchingProcesses.All(p => p.IsFound && p.IsResponding);
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
             }
             catch (Exception ex)
@@ -63,15 +64,24 @@ namespace Daily_Helper.Models
             
         }
 
-        private void RefreshProcessInfo(ProcessInfo processInfo)
+        private void RefreshWatchingProcesses()
         {
+            var RefreshedWatchedProcesses = new ObservableRangeCollection<ProcessInfo>();
+
             using (var client = new AgentServiceClient(
                 new NetTcpBinding(),
                 new EndpointAddress(@"net.tcp://" + Server + @":9002/DailyHelperAgent")))
             {
-                processInfo = new ProcessInfo(client.GetProcessState(processInfo.Name));
+                foreach (var process in WatchingProcesses)
+                {
+                    RefreshedWatchedProcesses.Add(new ProcessInfo(client.GetProcessState(process.Name)));
+                }
+
             }
 
+            WatchingProcesses.Clear();
+            WatchingProcesses.AddRange(RefreshedWatchedProcesses);
+            
         }
     }
 }
