@@ -21,7 +21,7 @@ namespace Daily_Helper.ViewModels
             _settings = settings;
 
             CheckInterval = settings.CheckInterval;
-
+            IsTiledViewPreferred = settings.IsTiledViewPreferred;
 
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
         }
@@ -33,6 +33,14 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref checkInterval, value);
         }
 
+        private bool _isTiledViewPreferred;
+
+        public bool IsTiledViewPreferred
+        {
+            get => _isTiledViewPreferred;
+            set => SetProperty(ref _isTiledViewPreferred, value);
+        }
+
         public IRaisedCommand SubmitChangesCommand { get; }
         /// <summary>
         /// Close window and return true from dialog
@@ -41,6 +49,7 @@ namespace Daily_Helper.ViewModels
         private void OnSubmitChangesCommandExecuted(object obj)
         {
             _settings.SetCheckInterval(CheckInterval);
+            _settings.SetTiledViewPreferrence(IsTiledViewPreferred);
             DialogHost.Close("MaterialSettingsDialogHost", "here i return");
         }
 

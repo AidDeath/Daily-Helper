@@ -12,6 +12,7 @@ namespace Daily_Helper.Services
         private RegistryKey dailyHelperRegKey;
 
         public int CheckInterval { get; private set; }
+        public bool IsTiledViewPreferred { get; private set; }
 
         public SettingsSingleton()
         {
@@ -24,6 +25,7 @@ namespace Daily_Helper.Services
 
 #pragma warning disable CS8605 // Default value will return if value is null
             CheckInterval = (int)dailyHelperRegKey.GetValue("CheckInterval", 60);
+            IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", false));
 #pragma warning restore CS8605 // Unboxing a possibly null value.
         }
 
@@ -32,6 +34,14 @@ namespace Daily_Helper.Services
             dailyHelperRegKey.SetValue("CheckInterval", minutes);
 #pragma warning disable CS8605 // Unboxing a possibly null value.
             CheckInterval = (int)dailyHelperRegKey.GetValue("CheckInterval", 60);
+#pragma warning restore CS8605 // Unboxing a possibly null value.
+        }
+
+        public void SetTiledViewPreferrence(bool yesOrNo)
+        {
+            dailyHelperRegKey.SetValue("IsTiledViewPreferred", yesOrNo);
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+            IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", false));
 #pragma warning restore CS8605 // Unboxing a possibly null value.
         }
     }

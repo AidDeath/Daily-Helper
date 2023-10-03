@@ -24,23 +24,29 @@ namespace Daily_Helper.ViewModels
         public ObservableCollection<RoutineBase> Routines
         {
             get => _routines;
-            set
-            {
-                SetProperty(ref _routines, value);
-            }
+            set => SetProperty(ref _routines, value);
         }
-        public MainViewModel(RoutineTestsProvider routines)
+        public MainViewModel(RoutineTestsProvider routines, SettingsSingleton settings)
         {
             Title = "Daily Helper";
             Routines = routines.Routines;
+            IsTileView = settings.IsTiledViewPreferred;
 
             ShowAddRoutineWindowCommand = new AsyncRelayCommand(OnShowAddRoutineWindowCommandExecuted);
             ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
-            ShowLogsCommand = new RelayCommand(OnShowLogsCommandExecuted);
+            ChangeViewCommand = new RelayCommand(OnChangeViewCommandExecuted);
             RemoveRoutineCommand = new RelayCommand(OnRemoveRoutineCommandExecuted);
+
+            ShowLogsCommand = new RelayCommand(OnShowLogsCommandExecuted);
         }
 
-
+        private bool _isTileView;
+        //If Tiled view selected
+        public bool IsTileView
+        {
+            get => _isTileView;
+            set => SetProperty(ref _isTileView, value);
+        }
 
         public IRaisedCommand ShowAddRoutineWindowCommand { get; }
 
@@ -122,6 +128,13 @@ namespace Daily_Helper.ViewModels
                 var a = JsonSerializer.Deserialize(serializedRoutine.JsonString, serializedRoutine.Type);
             }
             
+        }
+
+        public IRaisedCommand ChangeViewCommand { get; }
+
+        private void OnChangeViewCommandExecuted(object obj)
+        {
+            IsTileView = !IsTileView;
         }
     }
 }

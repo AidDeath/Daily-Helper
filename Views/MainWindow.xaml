@@ -41,15 +41,16 @@
                     <MenuItem Header="Настройки" Command="{Binding ShowSettingsWindowCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
-            <MenuItem Header="Логи" >
+            <MenuItem Header="Другое" >
                 <MenuItem.Items>
                     <MenuItem Header="Добавить задание" Command="{Binding ShowLogsCommand}"/>
+                    <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>
 
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Routines}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" SelectionUnit="CellOrRowHeader">
+        <DataGrid Visibility="{Binding IsTileView, Converter={StaticResource InverseBoolToVisConverter}}" Grid.Row="1" ItemsSource="{Binding Routines}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False" SelectionUnit="CellOrRowHeader">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -74,7 +75,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button
-                                ToolTip="Resource name: MaterialDesignRaisedButton"
+                                ToolTip="Отключить и удалить эту задачу"
                                 Content="Удалить" 
                                 Command="{Binding Path=DataContext.RemoveRoutineCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}"
                                 />
@@ -84,5 +85,35 @@
             </DataGrid.Columns>
 
         </DataGrid>
+
+        <ListBox Visibility="{Binding IsTileView, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1" ItemsSource="{Binding Routines}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="{Binding Success, Converter={StaticResource BooleanToColorConverter}}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Width="150" Height="150" Background="{Binding Success, Converter={StaticResource BooleanToColorConverter}}" ToolTip="{Binding Result}" UniformCornerRadius="10">
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="16 0 16 8"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="{Binding Description}"
+                            TextWrapping="Wrap"/>
+                    </materialDesign:Card>
+                </DataTemplate>
+
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
     </Grid>
 </Window>

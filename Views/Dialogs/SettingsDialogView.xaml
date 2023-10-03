@@ -29,18 +29,24 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" Content="Интервал запуска проверок, секунд" HorizontalAlignment="Center"/>
-
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Slider Name="Slider"  Value="{Binding CheckInterval, Mode=TwoWay}" materialDesign:HintAssist.Hint="Минут" Minimum="1" Maximum="60" Width="100"/>
                 <Label Target="{Binding ElementName=Slider}" Content="{Binding CheckInterval}" VerticalAlignment="Center"/>
                 <!--<materialDesign:TimePicker Width="50" />-->
             </StackPanel>
 
-            
+            <Label Grid.Row="1" Grid.Column="0" Content="Плиточный вид при запуске"/>
+            <ToggleButton Grid.Row="1" Grid.Column="1"
+                Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                ToolTip="MaterialDesignSwitchDarkToggleButton"
+                IsChecked="{Binding IsTiledViewPreferred}" />
+
+
 
         </Grid>
     </DockPanel>
