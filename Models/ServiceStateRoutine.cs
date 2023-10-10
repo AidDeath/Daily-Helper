@@ -62,8 +62,8 @@ namespace Daily_Helper.Models
 
                 }
 
-                //success if even any of items are Ok
-                Success = WatchedServices.Any(s => s.IsSuccess);
+                //success if all services are running
+                Success = WatchedServices.All(s => s.IsSuccess);
                 Result = results.Aggregate((a, b) => a + $"\n{b}");
             }
             catch (Exception e)
