@@ -59,6 +59,7 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _routineType, value);
         }
 
+
         private PingRoutine _pingRoutine;
 
         public PingRoutine PingRoutine
@@ -156,6 +157,16 @@ namespace Daily_Helper.ViewModels
 
 
 
+        public IRaisedCommand CancelAddingRoutineCommand { get; }
+        /// <summary>
+        /// close window without saving
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnCancelAddingRoutineCommand(object obj)
+        {
+            DialogHost.Close("AddRoutinesDialogHost");
+        }
+
 
         public IRaisedCommand SubmitChangesCommand { get; }
         /// <summary>
@@ -169,16 +180,6 @@ namespace Daily_Helper.ViewModels
             //wnd.Close();
 
             DialogHost.Close("AddRoutinesDialogHost", this);
-        }
-
-        public IRaisedCommand CancelAddingRoutineCommand { get; }
-        /// <summary>
-        /// close window without saving
-        /// </summary>
-        /// <param name="obj"></param>
-        private void OnCancelAddingRoutineCommand(object obj)
-        {
-            DialogHost.Close("AddRoutinesDialogHost");
         }
 
         private bool CanSubmitChangesCommandExecute(object obj)
