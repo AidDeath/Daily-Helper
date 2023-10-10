@@ -38,12 +38,13 @@
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
                     <MenuItem Header="Добавить проверку" Command="{Binding ShowAddRoutineWindowCommand}"/>
+                    <MenuItem Header="Включить все" Command="{Binding EnableAllRoutinesCommand}"/>
+                    <MenuItem Header="Выключить все" Command="{Binding DisableAllRoutinesCommand}"/>
                     <MenuItem Header="Настройки" Command="{Binding ShowSettingsWindowCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
             <MenuItem Header="Другое" >
                 <MenuItem.Items>
-                    <MenuItem Header="Добавить задание" Command="{Binding ShowLogsCommand}"/>
                     <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                 </MenuItem.Items>
             </MenuItem>

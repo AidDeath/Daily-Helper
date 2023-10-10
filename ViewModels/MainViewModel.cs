@@ -5,14 +5,8 @@ using Daily_Helper.Services;
 using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.ServiceModel;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Daily_Helper.ViewModels
@@ -34,10 +28,11 @@ namespace Daily_Helper.ViewModels
 
             ShowAddRoutineWindowCommand = new AsyncRelayCommand(OnShowAddRoutineWindowCommandExecuted);
             ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
-            ChangeViewCommand = new RelayCommand(OnChangeViewCommandExecuted);
             RemoveRoutineCommand = new RelayCommand(OnRemoveRoutineCommandExecuted);
+            ChangeViewCommand = new RelayCommand(OnChangeViewCommandExecuted);
 
-            ShowLogsCommand = new RelayCommand(OnShowLogsCommandExecuted);
+            DisableAllRoutinesCommand = new RelayCommand(OnDisableAllRoutinesCommandExecuted, CanDisableAllRoutinesCommandExecute);
+            EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
         }
 
         private bool _isTileView;
@@ -113,28 +108,42 @@ namespace Daily_Helper.ViewModels
 
 
 
-        public IRaisedCommand ShowLogsCommand { get; }
+        public IRaisedCommand DisableAllRoutinesCommand { get; }
 
-        private void OnShowLogsCommandExecuted(object obj)
+        private bool CanDisableAllRoutinesCommandExecute(object obj)
         {
-            //FOR TESTS
-
-            //DataContractJsonSerializerSettings asd = new() { EmitTypeInformation = System.Runtime.Serialization.EmitTypeInformation.Always };
-
-            var serializedRoutine = _routines.FirstOrDefault()?.GetSerialized();
-
-            if (serializedRoutine?.Type is not null && serializedRoutine.JsonString is not null)
-            {
-                var a = JsonSerializer.Deserialize(serializedRoutine.JsonString, serializedRoutine.Type);
-            }
-            
+            return Routines.Any(r => r.IsActivated);
         }
 
+        private void OnDisableAllRoutinesCommandExecuted(object obj)
+        {
+            foreach (var routine in Routines)
+            {
+                routine.IsActivated = false;
+            }
+        }
+
+        public IRaisedCommand EnableAllRoutinesCommand { get; }
+
+        private bool CanEnableAllRoutinesCommandExecute(object obj)
+        {
+            return !Routines.All(r => r.IsActivated);
+        }
+
+        private void OnEnableAllRoutinesCommandExecuted(object obj)
+        {
+            foreach (var routine in Routines)
+            {
+                routine.IsActivated = true;
+            }
+        }
         public IRaisedCommand ChangeViewCommand { get; }
 
         private void OnChangeViewCommandExecuted(object obj)
         {
             IsTileView = !IsTileView;
         }
+
+
     }
 }
