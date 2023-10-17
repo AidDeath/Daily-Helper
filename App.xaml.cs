@@ -55,16 +55,23 @@ namespace Daily_Helper
             var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
             if (saveLoadService is not null)
             {
-                var loadedRoutines = await saveLoadService.LoadAndDeserialize();
+                var loadedRoutines = await saveLoadService.LoadOnStartUp();
                 if (loadedRoutines is not null && loadedRoutines.Count > 0)
                 {
                     var routines = AppHost.Services.GetService<RoutineTestsProvider>()?.Routines;
-                   
-                    foreach (var routine in loadedRoutines)
-                        if (routine?.Type is not null && routine.JsonString is not null)
-                        {
-                            routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
-                        }
+                    try
+                    {
+                        foreach (var routine in loadedRoutines)
+                            if (routine?.Type is not null && routine.JsonString is not null)
+                            {
+                                routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
+                            }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
                 }
 
             }
@@ -81,7 +88,7 @@ namespace Daily_Helper
             var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
 
             if (saveLoadService is not null)
-                await saveLoadService.SerializeAndSave();
+                await saveLoadService.SaveFileOnExit();
 
             base.OnExit(e);
         }

@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace Daily_Helper.Services
 {
@@ -17,11 +15,12 @@ namespace Daily_Helper.Services
             _routinesProvider = routinesProvider;
         }
 
+
         /// <summary>
-        /// Serialize and save routinesProvider to the file near executable
+        /// Serializes all current routines to JSON 
         /// </summary>
-        /// <returns></returns>
-        public async Task SerializeAndSave()
+        /// <returns>List of serialized routines</returns>
+        public List<SerializedRoutine> SerializeRoutines()
         {
             List<SerializedRoutine> serializedRoutines = new();
             foreach (var current in _routinesProvider.Routines)
@@ -29,10 +28,35 @@ namespace Daily_Helper.Services
                 serializedRoutines.Add(current.GetSerialized());
             }
 
-            serializedRoutines = serializedRoutines.OrderBy(r => r.Type.Name).ToList();
+            return serializedRoutines
+                //.OrderBy(r => r.Type.Name)  // sorting don't needed?
+                .ToList();
+        }
 
 
-            using (var fileStream = new FileStream($"{Environment.CurrentDirectory}/routines.dat", FileMode.Create))
+        /// <summary>
+        /// Serialize and save routinesProvider to the file near executable
+        /// </summary>
+        /// <returns></returns>
+        public async Task SaveFileOnExit(string? savePath = null)
+        {
+            //List<SerializedRoutine> serializedRoutines = new();
+            //foreach (var current in _routinesProvider.Routines)
+            //{
+            //    serializedRoutines.Add(current.GetSerialized());
+            //}
+
+            //serializedRoutines = serializedRoutines.OrderBy(r => r.Type.Name).ToList();
+
+            await SaveToFile($"{Environment.CurrentDirectory}/routines.dat"); 
+        }
+
+        //TODO: add exceptions for access
+        public async Task SaveToFile(string savePath)
+        {
+            var serializedRoutines = SerializeRoutines();
+
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
             using (var sw = new StreamWriter(fileStream))
             {
                 foreach (var current in serializedRoutines)
@@ -45,18 +69,37 @@ namespace Daily_Helper.Services
             }
         }
 
-        public async Task<List<SerializedRoutine>?> LoadAndDeserialize()
+
+        public async Task<List<SerializedRoutine>?> LoadOnStartUp()
         {
+
+            return await LoadFromFile($"{Environment.CurrentDirectory}/routines.dat");
+
+        }
+
+        public async Task<List<SerializedRoutine>?> LoadFromFile(string loadPath)
+        {
+            //string? fileContent;
+            //List<SerializedRoutine>? result = new();
+
+            //using (var fileStream = new FileStream($"{Environment.CurrentDirectory}/routines.dat", FileMode.OpenOrCreate))
+            //using (var sr = new StreamReader(fileStream))
+            //{
+            //    fileContent = await sr.ReadToEndAsync();
+            //}
+
+            //string[] possibleTypes = { "FileShareRoutine", "PingRoutine", "ProcessStateRoutine", "ServiceStateRoutine", "ProcessStateRoutine", "DriveFreeSpaceRoutine", "ConnPortRoutine" };
+
             string? fileContent;
+
+            using (var fileStream = new FileStream(loadPath, FileMode.OpenOrCreate))
+                using (var sr = new StreamReader(fileStream))
+                {
+                    fileContent = await sr.ReadToEndAsync();
+                }
+
+            
             List<SerializedRoutine>? result = new();
-
-            using (var fileStream = new FileStream($"{Environment.CurrentDirectory}/routines.dat", FileMode.OpenOrCreate))
-            using (var sr = new StreamReader(fileStream))
-            {
-                fileContent = await sr.ReadToEndAsync();
-            }
-
-            string[] possibleTypes = { "FileShareRoutine", "PingRoutine", "ProcessStateRoutine", "ServiceStateRoutine", "ProcessStateRoutine", "DriveFreeSpaceRoutine", "ConnPortRoutine" };
 
             foreach (var entry in fileContent.Split("--RECORD--", StringSplitOptions.RemoveEmptyEntries))
             {

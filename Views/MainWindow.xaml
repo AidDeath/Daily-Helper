@@ -46,6 +46,8 @@
             <MenuItem Header="Другое" >
                 <MenuItem.Items>
                     <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
+                    <MenuItem Header="Экспорт набора задач" Command="{Binding ExportRoutinesCommand}"/>
+                    <MenuItem Header="Импорт набора задач" Command="{Binding ImportRoutinesCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>

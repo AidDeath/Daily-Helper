@@ -5,25 +5,31 @@ using Daily_Helper.Services;
 using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Daily_Helper.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
         private ObservableCollection<RoutineBase> _routines;
+        private RoutinesSaveLoadService _saveLoadService;
 
         public ObservableCollection<RoutineBase> Routines
         {
             get => _routines;
             set => SetProperty(ref _routines, value);
         }
-        public MainViewModel(RoutineTestsProvider routines, SettingsSingleton settings)
+        public MainViewModel(RoutineTestsProvider routines, SettingsSingleton settings, RoutinesSaveLoadService saveLoadService)
         {
             Title = "Daily Helper";
             Routines = routines.Routines;
+            _saveLoadService = saveLoadService;
             IsTileView = settings.IsTiledViewPreferred;
 
             ShowAddRoutineWindowCommand = new AsyncRelayCommand(OnShowAddRoutineWindowCommandExecuted);
@@ -33,6 +39,9 @@ namespace Daily_Helper.ViewModels
 
             DisableAllRoutinesCommand = new RelayCommand(OnDisableAllRoutinesCommandExecuted, CanDisableAllRoutinesCommandExecute);
             EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
+            ExportRoutinesCommand = new AsyncRelayCommand(OnExportRoutinesCommandExecuted, CanExportRoutinesCommandExecute);
+            ImportRoutinesCommand = new AsyncRelayCommand(OnImportRoutinesCommandExecuted);
+
         }
 
         private bool _isTileView;
@@ -84,16 +93,6 @@ namespace Daily_Helper.ViewModels
 
         private void OnShowSettingsWindowCommandExected(object obj)
         {
-
-            //var wnd = new SettingsWindow()
-            //{
-            //    Owner = GetCurrentWindow()
-            //};
-
-            //var vm = wnd.DataContext as SettingsViewModel;
-
-            //var result = wnd.ShowDialog();
-
             DialogHost.Show(new SettingsDialogView(), "MaterialSettingsDialogHost");
         }
 
@@ -143,6 +142,68 @@ namespace Daily_Helper.ViewModels
         {
             IsTileView = !IsTileView;
         }
+
+        public IRaisedCommand ExportRoutinesCommand { get; }
+
+        //Working on 
+        private async Task OnExportRoutinesCommandExecuted( object obj)
+        {
+
+            var fileDialog = new SaveFileDialog()
+            {
+                Title = "Экспорт заданий",
+                Filter = "Набор заданий|*.dat",
+                AddExtension = true,
+                DefaultExt = "dat"
+            };
+
+            if (fileDialog.ShowDialog() is true)
+            {
+                try
+                {
+                    await _saveLoadService.SaveToFile(fileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.GetBaseException().Message, "Ошибка экспорта", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private bool CanExportRoutinesCommandExecute(object obj)
+        {
+            return (Routines is not null && Routines.Count > 0);
+        }
+
+        public IRaisedCommand ImportRoutinesCommand { get; }
+
+        private async Task OnImportRoutinesCommandExecuted(object obj)
+        {
+            try
+            {
+                var fileDialog = new OpenFileDialog()
+                {
+                    Filter = "Набор заданий|*.dat",
+                    Title = "Импорт заданий",
+                };
+
+                if (fileDialog.ShowDialog() != true) return;
+
+                //TODO Give a choise to add or replace routines
+
+                foreach (var routine in await _saveLoadService.LoadFromFile(fileDialog.FileName))
+                    if (routine?.Type is not null && routine.JsonString is not null)
+                    {
+                        Routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
+                    }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
 
 
     }
