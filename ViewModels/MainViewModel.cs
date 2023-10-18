@@ -1,4 +1,5 @@
 ﻿
+using Daily_Helper.Helpers;
 using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Models;
 using Daily_Helper.Services;
@@ -7,6 +8,7 @@ using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
@@ -179,28 +181,21 @@ namespace Daily_Helper.ViewModels
 
         private async Task OnImportRoutinesCommandExecuted(object obj)
         {
-            try
+            
+            var vm = await DialogHost.Show(new LoadFromFileOptionsView(), "LoadFromFileOptionsDialogHost") as LoadFromFileOptionsViewModel;
+
+            if (vm is null) return;
+
+            //If we want to overwrite previous - we need to clear collection
+            if (vm.OverwriteRoutinesSelected)
             {
-                var fileDialog = new OpenFileDialog()
-                {
-                    Filter = "Набор заданий|*.dat",
-                    Title = "Импорт заданий",
-                };
-
-                if (fileDialog.ShowDialog() != true) return;
-
-                //TODO Give a choise to add or replace routines
-
-                foreach (var routine in await _saveLoadService.LoadFromFile(fileDialog.FileName))
-                    if (routine?.Type is not null && routine.JsonString is not null)
-                    {
-                        Routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
-                    }
+                OnDisableAllRoutinesCommandExecuted(new object());
+                Routines.Clear();
             }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
+            foreach (var addingRoutine in vm.SelectedRoutines)
+                Routines.Add(addingRoutine);
+
 
         }
 

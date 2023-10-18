@@ -83,7 +83,7 @@ namespace Daily_Helper
         protected override async void OnExit(ExitEventArgs e)
         {
             //var provider =  AppHost.Services.GetService<RoutineTestsProvider>();
-            //var jsonstring = JsonSerializer.Serialize<IEnumerable<RoutineBase>>(provider.Routines);
+            //var jsonstring = JsonSerializer.Serialize<IEnumerable<RoutineBase>>(provider.SelectedRoutines);
 
             var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
 

@@ -1,4 +1,5 @@
-﻿using Daily_Helper.Helpers.Enums;
+﻿using Daily_Helper.Helpers;
+using Daily_Helper.Helpers.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace Daily_Helper.Models
     {
         public RoutineTestsProvider()
         {
-            //Routines.CollectionChanged += RoutinesModified;
+            //SelectedRoutines.CollectionChanged += RoutinesModified;
         }
         public ObservableCollection<RoutineBase> Routines { get; set; } = new();
 

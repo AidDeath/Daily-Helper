@@ -41,7 +41,7 @@ namespace Daily_Helper.Services
         public async Task SaveFileOnExit(string? savePath = null)
         {
             //List<SerializedRoutine> serializedRoutines = new();
-            //foreach (var current in _routinesProvider.Routines)
+            //foreach (var current in _routinesProvider.SelectedRoutines)
             //{
             //    serializedRoutines.Add(current.GetSerialized());
             //}

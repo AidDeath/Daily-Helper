@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Daily_Helper.Views.Dialogs.LoadFromFileOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Daily_Helper.Views.Dialogs"
+             mc:Ignorable="d" 
+            Width="444"
+            xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal" 
+            TextOptions.TextRenderingMode="Auto"        
+            Background="{DynamicResource MaterialDesignPaper}"
+            FontFamily="{DynamicResource MaterialDesignFont}"
+            vml:ViewModelLocator.AutoWireViewModel="True"
+            d:DataContext ="{d:DesignInstance {x:Type vml:LoadFromFileOptionsViewModel}}"
+             d:DesignHeight="500" d:DesignWidth="300">
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    <DockPanel Margin="20">
+        <Grid DockPanel.Dock="Bottom" Visibility="{Binding IsFileSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Content="Добавить" Command="{Binding LoadRoutinesCommand}" CommandParameter="false"
+                    materialDesign:HintAssist.Hint="Добавить выбранные задачи в общий список"
+                    Margin="0,5" />
+            <Button Grid.Row="1" Content="Заменить" Command="{Binding LoadRoutinesCommand}" CommandParameter="true"
+                    materialDesign:HintAssist.Hint="Заменить задачи выбранными из файла"
+                    Margin="0,5" Background="Green" />
+            <Button Grid.Row="2" Content="Отмена" Command="{Binding CloseCommand}"
+                    materialDesign:HintAssist.Hint="Отменить добавление заданий"
+                    Margin="0,0,0,5" Background="Red"/>
+        </Grid>
+        
+        
+        <Button Visibility="{Binding IsFileSelected, Converter={StaticResource InverseBoolToVisConverter}}" 
+                DockPanel.Dock="Bottom" Content="Выбор файла" Command="{Binding OpenFileCommand}"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="400" Visibility="{Binding IsFileSelected, 
+            Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DataGrid
+                ItemsSource="{Binding AddingRoutines}"
+                CanUserAddRows="False"
+                AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn  
+                        Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" 
+                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                        Header="Импорт"/>
+                    <materialDesign:DataGridTextColumn Binding="{Binding Routine.Description}" Header="Описание" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>
