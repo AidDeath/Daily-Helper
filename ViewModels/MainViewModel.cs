@@ -1,5 +1,4 @@
 ﻿
-using Daily_Helper.Helpers;
 using Daily_Helper.Helpers.Commands;
 using Daily_Helper.Models;
 using Daily_Helper.Services;
@@ -154,7 +153,7 @@ namespace Daily_Helper.ViewModels
             var fileDialog = new SaveFileDialog()
             {
                 Title = "Экспорт заданий",
-                Filter = "Набор заданий|*.dat",
+                Filter = "Набор заданий|*.dhlist",
                 AddExtension = true,
                 DefaultExt = "dat"
             };

@@ -48,7 +48,7 @@ namespace Daily_Helper.Services
 
             //serializedRoutines = serializedRoutines.OrderBy(r => r.Type.Name).ToList();
 
-            await SaveToFile($"{Environment.CurrentDirectory}/routines.dat"); 
+            await SaveToFile($"{Environment.CurrentDirectory}/routines.dhlist"); 
         }
 
         //TODO: add exceptions for access
@@ -73,7 +73,7 @@ namespace Daily_Helper.Services
         public async Task<List<SerializedRoutine>?> LoadOnStartUp()
         {
 
-            return await LoadFromFile($"{Environment.CurrentDirectory}/routines.dat");
+            return await LoadFromFile($"{Environment.CurrentDirectory}/routines.dhlist");
 
         }
 
