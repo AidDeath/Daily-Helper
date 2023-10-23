@@ -1,6 +1,8 @@
 ﻿using Daily_Helper.Models;
 using Daily_Helper.Services;
 using Daily_Helper.Views;
+using Daily_Helper.Views.Dialogs;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.CodeDom;
@@ -69,7 +71,8 @@ namespace Daily_Helper
                     }
                     catch (System.Exception ex)
                     {
-                        MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
+                        await DialogHost.Show(MaterialMessageBox.Create($"Ошибка импорта: {ex.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
+                        //MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
 
                 }

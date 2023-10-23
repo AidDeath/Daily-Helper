@@ -7,12 +7,9 @@ using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Daily_Helper.ViewModels
 {
@@ -166,7 +163,8 @@ namespace Daily_Helper.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.GetBaseException().Message, "Ошибка экспорта", MessageBoxButton.OK, MessageBoxImage.Error);
+                    await DialogHost.Show(MaterialMessageBox.Create($"Ошибка при экспорте: {ex.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
+                    //MessageBox.Show(ex.GetBaseException().Message, "Ошибка экспорта", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
