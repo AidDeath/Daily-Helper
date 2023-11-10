@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.Serialization.Json;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Daily_Helper
@@ -69,10 +70,10 @@ namespace Daily_Helper
                                 routines.Add((RoutineBase)JsonSerializer.Deserialize(routine.JsonString, routine.Type));
                             }
                     }
-                    catch (System.Exception ex)
+                    catch
                     {
-                        await DialogHost.Show(MaterialMessageBox.Create($"Ошибка импорта: {ex.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
-                        //MessageBox.Show(ex.GetBaseException().Message, "Ошибка импорта", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //await DialogHost.Show(MaterialMessageBox.Create($"Ошибка импорта: {ex.GetBaseException().Message}", MessageType.Error), "MaterialMessageBox");
+                        MessageBox.Show("При загрузке списка заданий произошла ошибка.\nЗагружены не все задания.", "Ошибка импорта");
                     }
 
                 }
@@ -83,22 +84,19 @@ namespace Daily_Helper
             mainWindow?.Show();
         }
 
-        protected override async void OnExit(ExitEventArgs e)
+        private async void Application_Exit(object sender, ExitEventArgs e)
         {
-            //var provider =  AppHost.Services.GetService<RoutineTestsProvider>();
-            //var jsonstring = JsonSerializer.Serialize<IEnumerable<RoutineBase>>(provider.SelectedRoutines);
-
             var saveLoadService = AppHost.Services.GetService<RoutinesSaveLoadService>();
 
             if (saveLoadService is not null)
-                await saveLoadService.SaveFileOnExit();
-
-            base.OnExit(e);
-        }
-
-        private void Application_Exit(object sender, ExitEventArgs e)
-        {
-            
+                try
+                {
+                    await saveLoadService.SaveFileOnExit();
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.GetBaseException().Message);
+                }
         }
     }
 }

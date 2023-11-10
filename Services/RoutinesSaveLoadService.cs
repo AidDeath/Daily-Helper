@@ -56,17 +56,16 @@ namespace Daily_Helper.Services
         {
             var serializedRoutines = SerializeRoutines();
 
-            using (var fileStream = new FileStream(savePath, FileMode.Create))
-            using (var sw = new StreamWriter(fileStream))
+            string jsonText = "";
+            
+            foreach (var current in serializedRoutines)
             {
-                foreach (var current in serializedRoutines)
-                {
-                    await sw.WriteLineAsync($"--RECORD--{current?.Type?.Name}--TYPE--");
-                    await sw.WriteLineAsync(current?.JsonString);
-
-                }
-
+                jsonText += ($"--RECORD--{current?.Type?.Name}--TYPE--");
+                jsonText +=current?.JsonString;
             }
+
+            await File.WriteAllTextAsync(savePath, jsonText);
+                          
         }
 
 

@@ -152,7 +152,7 @@ namespace Daily_Helper.ViewModels
                 Title = "Экспорт заданий",
                 Filter = "Набор заданий|*.dhlist",
                 AddExtension = true,
-                DefaultExt = "dat"
+                DefaultExt = "dhlist"
             };
 
             if (fileDialog.ShowDialog() is true)
