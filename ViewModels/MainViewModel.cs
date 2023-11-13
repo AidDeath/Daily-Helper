@@ -43,6 +43,7 @@ namespace Daily_Helper.ViewModels
             EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
             ExportRoutinesCommand = new AsyncRelayCommand(OnExportRoutinesCommandExecuted, CanExportRoutinesCommandExecute);
             ImportRoutinesCommand = new AsyncRelayCommand(OnImportRoutinesCommandExecuted);
+            DeleteAllRoutines = new RelayCommand(OnDeleteAllRoutinesExecuted, CanDeleteAllRoutinesExecute);
 
             RememberWindowSizeCommand = new RelayCommand(OnRememberWindowSizeCommandExecuted);
 
@@ -225,6 +226,18 @@ namespace Daily_Helper.ViewModels
             _settings.SetWindowSize(WindowWidth, WindowHeight);
         }
 
+        public IRaisedCommand DeleteAllRoutines { get; }
+
+        private void OnDeleteAllRoutinesExecuted(object obj)
+        {
+            OnDisableAllRoutinesCommandExecuted(new object());
+            Routines.Clear();
+        }
+
+        private bool CanDeleteAllRoutinesExecute(object obj)
+        {
+            return Routines.Count > 0;
+        }
 
 
     }

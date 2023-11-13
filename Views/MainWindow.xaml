@@ -43,13 +43,14 @@
                     <MenuItem Header="Включить все" Command="{Binding EnableAllRoutinesCommand}"/>
                     <MenuItem Header="Выключить все" Command="{Binding DisableAllRoutinesCommand}"/>
                     <MenuItem Header="Настройки" Command="{Binding ShowSettingsWindowCommand}"/>
-                </MenuItem.Items>
-            </MenuItem>
-            <MenuItem Header="Другое" >
-                <MenuItem.Items>
-                    <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                     <MenuItem Header="Экспорт набора задач" Command="{Binding ExportRoutinesCommand}"/>
                     <MenuItem Header="Импорт набора задач" Command="{Binding ImportRoutinesCommand}"/>
+                    <MenuItem Header="Удалить все задачи" Command="{Binding DeleteAllRoutines}"/>
+                </MenuItem.Items>
+            </MenuItem>
+            <MenuItem Header="Вид" >
+                <MenuItem.Items>
+                    <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                     <MenuItem Header="Запомнить этот размер окна" Command="{Binding RememberWindowSizeCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
