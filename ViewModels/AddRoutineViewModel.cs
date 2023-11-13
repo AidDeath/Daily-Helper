@@ -36,6 +36,8 @@ namespace Daily_Helper.ViewModels
             ServiceStateRoutine = new();
             ProcessStateRoutine = new();
             DriveFreeSpaceRoutine = new("localhost", 10);
+            FolderLastChangedRoutine = new();
+            
             
             
 
@@ -155,6 +157,13 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref driveFreeSpaceRoutine, value);
         }
 
+        private FolderLastChangedRoutine _folderLastChangedRoutine;
+        public FolderLastChangedRoutine FolderLastChangedRoutine
+        {
+            get => _folderLastChangedRoutine;
+            set => SetProperty(ref _folderLastChangedRoutine, value);
+        }
+
 
 
         public IRaisedCommand CancelAddingRoutineCommand { get; }
@@ -198,6 +207,8 @@ namespace Daily_Helper.ViewModels
                     return !ConnPortRoutine.HasErrors && !string.IsNullOrWhiteSpace(ConnPortRoutine.Hostname) && ConnPortRoutine.Port != 0;
                 case RoutineTypes.DriveFreeSpace:
                     return !DriveFreeSpaceRoutine.HasErrors;
+                case RoutineTypes.FolderLastChanged:
+                    return !FolderLastChangedRoutine.HasErrors;
                 default:
                     return false;
             }
