@@ -124,6 +124,9 @@ namespace Daily_Helper.Services
                     case "ConnPortRoutine":
                         result.Add(new() { Type = typeof(ConnPortRoutine), JsonString = record[1] });
                         break;
+                    case "FolderLastChangedRoutine":
+                        result.Add(new() { Type = typeof(FolderLastChangedRoutine), JsonString = record[1] });
+                        break;
                     default:
                         break;
 

@@ -81,6 +81,9 @@ namespace Daily_Helper.ViewModels
                 case Helpers.Enums.RoutineTypes.DriveFreeSpace:
                     Routines.Add(vm.DriveFreeSpaceRoutine);
                     break;
+                case Helpers.Enums.RoutineTypes.FolderLastChanged:
+                    Routines.Add(vm.FolderLastChangedRoutine);
+                    break;
                 default:
                     break;
             }

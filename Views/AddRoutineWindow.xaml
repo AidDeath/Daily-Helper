@@ -49,7 +49,7 @@
                       DockPanel.Dock="Top" materialDesign:HintAssist.Hint="Выбор типа задания" Style="{StaticResource MaterialDesignFilledComboBox}"/>
             <Button DockPanel.Dock="Bottom" Content="Создать" Command="{Binding SubmitChangesCommand}"  />
             <StackPanel Margin="5" HorizontalAlignment="Stretch">
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.Ping}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.Ping}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -66,7 +66,7 @@
                         <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding PingRoutine.Hostname, UpdateSourceTrigger=PropertyChanged}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
                     </Grid>
                 </StackPanel>
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.FileShare}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.FileShare}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -125,7 +125,7 @@
                     </Grid>
                     
                 </StackPanel>
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ConnectToPort}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ConnectToPort}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -159,7 +159,7 @@
                         </GroupBox>
                     </Grid>
                 </StackPanel>
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ServiceState}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ServiceState}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -218,7 +218,7 @@
                     </Grid>
 
                 </StackPanel>
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ProcessState}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.ProcessState}, Converter={StaticResource RoutineTypeToVisibilityConverter}}" >
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -277,7 +277,7 @@
                     </Grid>
 
                 </StackPanel>
-                <StackPanel Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.DriveFreeSpace}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
+                <StackPanel d:Visibility="Visible" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.DriveFreeSpace}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
                     <Grid HorizontalAlignment="Center" Margin="5,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -294,14 +294,38 @@
                         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Имя хоста или IP адрес:" Width="Auto" HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1" Grid.Column="1" Width="150" Text="{Binding DriveFreeSpaceRoutine.Server, UpdateSourceTrigger=PropertyChanged}" ToolTip="Имя хоста или IP адрес" Margin="10,0"/>
                         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Порог предупреждения, Gb:" Width="Auto" HorizontalAlignment="Center"/>
-                        <Grid Grid.Row="2" Grid.Column="1" Width="150">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Width="150">
+                            <Label Grid.Column="0" Target="{Binding ElementName=DesiredSpaceGbSlider}" Content="{Binding DriveFreeSpaceRoutine.DesiredFreeSpaceGb}" HorizontalAlignment="Center"/>
                             <Slider Grid.Column="1" Name="DesiredSpaceGbSlider" Value="{Binding DriveFreeSpaceRoutine.DesiredFreeSpaceGb, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" materialDesign:HintAssist.Hint="Gb" Minimum="1" Maximum="60"  ToolTip="Предупреждать, если осталось меньше заданного" />
-                            <Label Grid.Column="0" Target="{Binding ElementName=DesiredSpaceGbSlider}" Content="{Binding DriveFreeSpaceRoutine.DesiredFreeSpaceGb}"/>
-                        </Grid>
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <StackPanel d:Visibility="Collapsed" Visibility="{Binding RoutineType, ConverterParameter={x:Static enums:RoutineTypes.FolderLastChanged}, Converter={StaticResource RoutineTypeToVisibilityConverter}}">
+                    <Grid HorizontalAlignment="Center" Margin="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card Grid.Row="0" Grid.ColumnSpan="2" Margin="10" Padding="5">
+                            <TextBlock Text="Проверяется, как давно в указанной папке появлялись новые файлы. покажет ошибку, если файлов не было больше, чем задано минут" TextWrapping="Wrap"/>
+                        </materialDesign:Card>
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                            <TextBlock VerticalAlignment="Center" Text="Путь к проверяемой папке" Width="Auto" HorizontalAlignment="Center"/>
+                            <TextBox  Text="{Binding FolderLastChangedRoutine.Path, UpdateSourceTrigger=PropertyChanged}" ToolTip="Путь к отслеживаемой директории" Margin="10,0"/>
+                        </StackPanel>
+                      
+                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Макс. минут после изменения" Width="Auto" HorizontalAlignment="Center"/>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,10">
+                            <Label Target="{Binding ElementName=MaxMinChangedSlider}" Content="{Binding FolderLastChangedRoutine.MaxMinSinceChanged}" HorizontalAlignment="Center"/>
+                            <Slider Grid.Row="2" Grid.Column="1" Name="MaxMinChangedSlider" Value="{Binding FolderLastChangedRoutine.MaxMinSinceChanged, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Maximum="60" ToolTip="Путь к отслеживаемой директории" Margin="10,0"/>
+                        </StackPanel>
+
                     </Grid>
                 </StackPanel>
 

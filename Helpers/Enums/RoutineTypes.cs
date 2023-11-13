@@ -13,7 +13,8 @@ namespace Daily_Helper.Helpers.Enums
         FileShare,
         ServiceState,
         ProcessState,
-        DriveFreeSpace
+        DriveFreeSpace,
+        FolderLastChanged
     }
 
     /// <summary>
@@ -28,7 +29,8 @@ namespace Daily_Helper.Helpers.Enums
             { RoutineTypes.Ping, "Проверка доступности хоста (ping)" },
             { RoutineTypes.ServiceState, "Проверка состояния службы" },
             { RoutineTypes.ProcessState, "Проверка состояния процесса" },
-            { RoutineTypes.DriveFreeSpace, "Проверка места на дисках" }
+            { RoutineTypes.DriveFreeSpace, "Проверка места на дисках" },
+            { RoutineTypes.FolderLastChanged, "Последнее изменение папки" }
         };
     }
 
