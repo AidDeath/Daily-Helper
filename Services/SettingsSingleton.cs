@@ -14,6 +14,9 @@ namespace Daily_Helper.Services
         public int CheckInterval { get; private set; }
         public bool IsTiledViewPreferred { get; private set; }
 
+        public int RememberedWidth { get; private set; }
+        public int RememberedHeight { get; private set; }
+
         public SettingsSingleton()
         {
             
@@ -26,6 +29,8 @@ namespace Daily_Helper.Services
 #pragma warning disable CS8605 // Default value will return if value is null
             CheckInterval = (int)dailyHelperRegKey.GetValue("CheckInterval", 60);
             IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", false));
+            RememberedHeight = (int)dailyHelperRegKey.GetValue("RememberedHeight", 450);
+            RememberedWidth = (int)dailyHelperRegKey.GetValue("RememberedWidth", 800);
 #pragma warning restore CS8605 // Unboxing a possibly null value.
         }
 
@@ -44,5 +49,12 @@ namespace Daily_Helper.Services
             IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", false));
 #pragma warning restore CS8605 // Unboxing a possibly null value.
         }
+
+        public void SetWindowSize(int Width, int Height)
+        {
+            dailyHelperRegKey.SetValue("RememberedWidth", Width);
+            dailyHelperRegKey.SetValue("RememberedHeight", Height);
+        }
+
     }
 }

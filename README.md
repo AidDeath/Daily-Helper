@@ -3,7 +3,7 @@ Helper for everyday local network PCs monitoring
 
 Simple App runs test tasks with delay according to settings
 
-Main module is made with .Net 6, WCF service and windows service are mane with .Net Framework 3.5
+Main module is made with .Net 6, WCF service and windows service are made with .Net Framework 3.5
 
 Possible tasks:
   - Send ICMP request (ping)
@@ -13,6 +13,7 @@ Possible tasks:
   - Check if a state of a specified Windows service runnuning on a specified machine over network
   - Check if a specified process is responding on remote machine over network (Requires Windows Service installation to a target machine)
   - Check available logical drives free space on remote machine (Requires Windows Service installation to a target machine)
+  - Check if last changes in directory was less than specified amount of time
     
   Main window shows table with results of testings, including last success time and some other information.
   

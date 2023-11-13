@@ -17,6 +17,7 @@ namespace Daily_Helper.ViewModels
     {
         private ObservableCollection<RoutineBase> _routines;
         private RoutinesSaveLoadService _saveLoadService;
+        private SettingsSingleton _settings;
 
         public ObservableCollection<RoutineBase> Routines
         {
@@ -28,7 +29,10 @@ namespace Daily_Helper.ViewModels
             Title = "Daily Helper";
             Routines = routines.Routines;
             _saveLoadService = saveLoadService;
-            IsTileView = settings.IsTiledViewPreferred;
+            _settings = settings;
+            IsTileView = _settings.IsTiledViewPreferred;
+            WindowWidth = _settings.RememberedWidth;
+            WindowHeight = _settings.RememberedHeight;
 
             ShowAddRoutineWindowCommand = new AsyncRelayCommand(OnShowAddRoutineWindowCommandExecuted);
             ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
@@ -40,6 +44,8 @@ namespace Daily_Helper.ViewModels
             ExportRoutinesCommand = new AsyncRelayCommand(OnExportRoutinesCommandExecuted, CanExportRoutinesCommandExecute);
             ImportRoutinesCommand = new AsyncRelayCommand(OnImportRoutinesCommandExecuted);
 
+            RememberWindowSizeCommand = new RelayCommand(OnRememberWindowSizeCommandExecuted);
+
         }
 
         private bool _isTileView;
@@ -48,6 +54,20 @@ namespace Daily_Helper.ViewModels
         {
             get => _isTileView;
             set => SetProperty(ref _isTileView, value);
+        }
+
+        private int _windowWidth;
+        public int WindowWidth
+        {
+            get => _windowWidth;
+            set => SetProperty(ref _windowWidth, value);
+        }
+
+        private int _windowHeight;
+        public int WindowHeight
+        {
+            get => _windowHeight;
+            set => SetProperty(ref _windowHeight, value);
         }
 
         public IRaisedCommand ShowAddRoutineWindowCommand { get; }
@@ -197,6 +217,12 @@ namespace Daily_Helper.ViewModels
                 Routines.Add(addingRoutine);
 
 
+        }
+
+        public IRaisedCommand RememberWindowSizeCommand { get; }
+        private void OnRememberWindowSizeCommandExecuted(object obj)
+        {
+            _settings.SetWindowSize(WindowWidth, WindowHeight);
         }
 
 

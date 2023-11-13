@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Title}" Height="450" Width="800"
+        Title="{Binding Title}" d:Height="450" d:Width="800"
         xmlns:conv="clr-namespace:Daily_Helper.Helpers.Converters"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
@@ -16,7 +16,8 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" WindowStartupLocation="CenterScreen" >
+        d:DataContext ="{d:DesignInstance {x:Type vml:MainViewModel}}" WindowStartupLocation="CenterScreen" 
+        Width="{Binding WindowWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
     <Window.Resources>
         <conv:BooleanToColorConverter x:Key="BooleanToColorConverter"/>
         <conv:DateTimeToSpanStringConverter x:Key="DateTimeToSpanStringConverter"/>
@@ -49,6 +50,7 @@
                     <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                     <MenuItem Header="Экспорт набора задач" Command="{Binding ExportRoutinesCommand}"/>
                     <MenuItem Header="Импорт набора задач" Command="{Binding ImportRoutinesCommand}"/>
+                    <MenuItem Header="Запомнить этот размер окна" Command="{Binding RememberWindowSizeCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>
@@ -98,13 +100,13 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <UniformGrid/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="150" Height="150" Background="{Binding Success, Converter={StaticResource BooleanToColorConverter}}" ToolTip="{Binding Result}" UniformCornerRadius="10">
+                    <materialDesign:Card Background="{Binding Success, Converter={StaticResource BooleanToColorConverter}}" ToolTip="{Binding Result}" UniformCornerRadius="10">
                         <TextBlock
                             Grid.Row="2"
                             Margin="16 0 16 8"
