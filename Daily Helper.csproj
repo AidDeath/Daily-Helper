@@ -8,6 +8,11 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>calendar_preferences.ico</ApplicationIcon>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <AssemblyVersion>1.0</AssemblyVersion>
+    <FileVersion>1.0</FileVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>Local area computers monitoring</Description>
+    <Copyright>Ioksha Dzmitry</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +39,13 @@
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

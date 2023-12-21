@@ -28,7 +28,7 @@ namespace Daily_Helper.Services
 
 #pragma warning disable CS8605 // Default value will return if value is null
             CheckInterval = (int)dailyHelperRegKey.GetValue("CheckInterval", 60);
-            IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", false));
+            IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", "False"));
             RememberedHeight = (int)dailyHelperRegKey.GetValue("RememberedHeight", 450);
             RememberedWidth = (int)dailyHelperRegKey.GetValue("RememberedWidth", 800);
 #pragma warning restore CS8605 // Unboxing a possibly null value.
