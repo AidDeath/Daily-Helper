@@ -48,6 +48,7 @@ namespace Daily_Helper
             services.AddSingleton<RoutineTestsProvider>();
             services.AddSingleton<SettingsSingleton>();
             services.AddHostedService<BackgroundHostedService>();
+            services.AddDbContext<DailyHelperDbContext>();
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)

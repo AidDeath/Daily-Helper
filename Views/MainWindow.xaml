@@ -52,6 +52,8 @@
                 <MenuItem.Items>
                     <MenuItem Header="Изменить вид" Command="{Binding ChangeViewCommand}"/>
                     <MenuItem Header="Запомнить этот размер окна" Command="{Binding RememberWindowSizeCommand}"/>
+                    <MenuItem Header="Write to db" Command="{Binding WriteToDbCommand}"/>
+                    <MenuItem Header="Read from db" Command="{Binding ReadFromDbCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>

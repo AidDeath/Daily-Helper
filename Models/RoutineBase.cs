@@ -13,8 +13,13 @@ namespace Daily_Helper.Models
         public RoutineBase()
         {
             IsActivated = true;
+            RoutineId = Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// Unique identifer
+        /// </summary>
+        public string RoutineId { get; set; }
 
         private bool _isActivated;
 

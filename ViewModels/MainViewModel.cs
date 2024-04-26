@@ -5,11 +5,16 @@ using Daily_Helper.Services;
 using Daily_Helper.Views;
 using Daily_Helper.Views.Dialogs;
 using MaterialDesignThemes.Wpf;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Daily_Helper.ViewModels
 {
@@ -18,18 +23,20 @@ namespace Daily_Helper.ViewModels
         private ObservableCollection<RoutineBase> _routines;
         private RoutinesSaveLoadService _saveLoadService;
         private SettingsSingleton _settings;
+        private readonly DailyHelperDbContext _db;
 
         public ObservableCollection<RoutineBase> Routines
         {
             get => _routines;
             set => SetProperty(ref _routines, value);
         }
-        public MainViewModel(RoutineTestsProvider routines, SettingsSingleton settings, RoutinesSaveLoadService saveLoadService)
+        public MainViewModel(RoutineTestsProvider routines, SettingsSingleton settings, RoutinesSaveLoadService saveLoadService, DailyHelperDbContext db)
         {
             Title = "Daily Helper";
             Routines = routines.Routines;
             _saveLoadService = saveLoadService;
             _settings = settings;
+            _db = db;
             IsTileView = _settings.IsTiledViewPreferred;
             WindowWidth = _settings.RememberedWidth;
             WindowHeight = _settings.RememberedHeight;
@@ -47,6 +54,8 @@ namespace Daily_Helper.ViewModels
 
             RememberWindowSizeCommand = new RelayCommand(OnRememberWindowSizeCommandExecuted);
 
+            WriteToDbCommand = new RelayCommand(OnWriteToDbCommandExecuted);
+            ReadFromDbCommand = new RelayCommand(OnReadFromDbCommandExecuted);
         }
 
         private bool _isTileView;
@@ -238,6 +247,44 @@ namespace Daily_Helper.ViewModels
         {
             return Routines.Count > 0;
         }
+
+
+
+        /// <summary>
+        /// Temporary section - test of EF
+        /// </summary>
+#region DELETE AFTER FINISH
+        public IRaisedCommand WriteToDbCommand { get; }
+        private void OnWriteToDbCommandExecuted(object obj)
+        {
+            //var mail = new Email { FullName = "Aiddeath", EmailAddress = "aiddeath@gmail.com" };
+            //var ident = new RoutineIdentifer { RoutineId = new Guid().ToString(), Description = "dsfsdgsd", FailureEvents = new List<FailureEvent>() };
+            //var fail = new FailureEvent { ExceptionMessage = "Хлябадыщь", IsStillActive = true, FailureDescription = "Хана", Occured = DateTime.Now, RoutineId = new Guid().ToString()};
+            //ident.FailureEvents.Add(fail);
+            //var mailRec = new MailReciever { Email = mail, RoutineIdentifer = ident };
+            //var maillog = new MailLog { Email = mail, FailureEvent = fail, SendAt = DateTime.Now, Subject = "dsad" };
+            //fail.RoutineIdentifer = ident;
+            //ident.MailRecievers = new List<MailReciever>();
+            //ident.MailRecievers.Add(mailRec);
+
+            
+
+            //_db.FailureEvents.Add(fail);
+            //_db.SaveChanges();
+        }
+
+
+        public IRaisedCommand ReadFromDbCommand { get; }
+        private void OnReadFromDbCommandExecuted(object obj)
+        {
+            var a = _db.FailureEvents.Include(f => f.RoutineIdentifer).ThenInclude(id=> id.MailRecievers);
+
+
+            //var strings = models.Select((model) => model.ToString()).ToList();
+            //var strings = _db.FailureEvents.Select((row) => row.ToString()).ToList(); 
+            //MessageBox.Show(strings.Aggregate((a,b) => a + "\n" + b));
+        }
+#endregion
 
 
     }

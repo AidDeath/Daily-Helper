@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,9 +17,10 @@ namespace Daily_Helper.Services
         private readonly ILogger<BackgroundHostedService> _logger;
         private RoutineTestsProvider _routineTests;
         private readonly SettingsSingleton _settings;
+        private readonly DailyHelperDbContext _db;
 
 
-        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests, SettingsSingleton settings)
+        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests, SettingsSingleton settings, DailyHelperDbContext db)
         {
             _logger = logger;
 
@@ -26,6 +28,7 @@ namespace Daily_Helper.Services
 
             _routineTests = routineTests;
             _settings = settings;
+            _db = db;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -40,6 +43,26 @@ namespace Daily_Helper.Services
                     foreach (var routine in _routineTests.Routines)
                     {
                         _logger.LogInformation($"{routine.Description} - {routine.Result}");
+
+                        //If routine failed and there is no record with "IsStillActive" checked in database - we add record
+                        if (routine.Success == false && _db.FailureEvents.Where((record) => record.RoutineId == routine.RoutineId).All((rec) => !rec.IsStillActive))
+                        {
+                            _db.FailureEvents.Add(new FailureEvent
+                            {
+                                FailureDescription = routine.Result,
+                                Occured = routine.LastExecutted,
+                                RoutineId = routine.RoutineId,
+                                
+                            });
+                            await _db.SaveChangesAsync(stoppingToken);
+                        }
+
+                        if (routine.Success == true && _db.FailureEvents.Any((record) => record.RoutineId == routine.RoutineId && record.IsStillActive))
+                        {
+                            _db.FailureEvents.Select((record) => record.RoutineId == routine.RoutineId);
+                        }
+
+                        
                     }
                     
                 }
