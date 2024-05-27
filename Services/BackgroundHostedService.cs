@@ -52,6 +52,7 @@ namespace Daily_Helper.Services
                                 FailureDescription = routine.Result,
                                 Occured = routine.LastExecutted,
                                 RoutineId = routine.RoutineId,
+                                RoutineIdentifer = new RoutineIdentifer { IsCurrentlyInList = true, Description = routine.Description, RoutineId = routine.RoutineId}
                                 
                             });
                             await _db.SaveChangesAsync(stoppingToken);
@@ -59,8 +60,11 @@ namespace Daily_Helper.Services
 
                         if (routine.Success == true && _db.FailureEvents.Any((record) => record.RoutineId == routine.RoutineId && record.IsStillActive))
                         {
-                            _db.FailureEvents.Select((record) => record.RoutineId == routine.RoutineId);
+                            _db.FailureEvents.FirstOrDefault(rec => rec.RoutineId == routine.RoutineId).IsStillActive = false;
+                            await _db.SaveChangesAsync(stoppingToken);
                         }
+
+
 
                         
                     }

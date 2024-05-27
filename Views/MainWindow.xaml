@@ -36,6 +36,7 @@
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="MaterialSettingsDialogHost" Panel.ZIndex="1"/>
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="AddRoutinesDialogHost" Panel.ZIndex="1"/>
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="LoadFromFileOptionsDialogHost" Panel.ZIndex="1"/>
+        <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="EventsListDialogHost" Panel.ZIndex="1"/>
         <Menu Grid.Row="0">
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
@@ -54,6 +55,12 @@
                     <MenuItem Header="Запомнить этот размер окна" Command="{Binding RememberWindowSizeCommand}"/>
                     <MenuItem Header="Write to db" Command="{Binding WriteToDbCommand}"/>
                     <MenuItem Header="Read from db" Command="{Binding ReadFromDbCommand}"/>
+                </MenuItem.Items>
+            </MenuItem>
+            <MenuItem Header="Протоколы">
+                <MenuItem.Items>
+                    <MenuItem Header="События отказов" Command="{Binding ShowEventsList}"/>
+                    <MenuItem Header="Отправленные уведомления"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>

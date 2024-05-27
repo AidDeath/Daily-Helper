@@ -45,6 +45,7 @@ namespace Daily_Helper.ViewModels
             ShowSettingsWindowCommand = new RelayCommand(OnShowSettingsWindowCommandExected);
             RemoveRoutineCommand = new RelayCommand(OnRemoveRoutineCommandExecuted);
             ChangeViewCommand = new RelayCommand(OnChangeViewCommandExecuted);
+            ShowEventsList = new AsyncRelayCommand(OnShowEventsListExecuted);
 
             DisableAllRoutinesCommand = new RelayCommand(OnDisableAllRoutinesCommandExecuted, CanDisableAllRoutinesCommandExecute);
             EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
@@ -78,6 +79,13 @@ namespace Daily_Helper.ViewModels
         {
             get => _windowHeight;
             set => SetProperty(ref _windowHeight, value);
+        }
+
+        public IRaisedCommand ShowEventsList { get; }
+        private async Task OnShowEventsListExecuted(object obj)
+        {
+            var vm = await DialogHost.Show(new EventsListWindow(), "EventsListDialogHost") as EventsListViewModel;
+
         }
 
         public IRaisedCommand ShowAddRoutineWindowCommand { get; }
@@ -257,20 +265,21 @@ namespace Daily_Helper.ViewModels
         public IRaisedCommand WriteToDbCommand { get; }
         private void OnWriteToDbCommandExecuted(object obj)
         {
-            //var mail = new Email { FullName = "Aiddeath", EmailAddress = "aiddeath@gmail.com" };
-            //var ident = new RoutineIdentifer { RoutineId = new Guid().ToString(), Description = "dsfsdgsd", FailureEvents = new List<FailureEvent>() };
-            //var fail = new FailureEvent { ExceptionMessage = "Хлябадыщь", IsStillActive = true, FailureDescription = "Хана", Occured = DateTime.Now, RoutineId = new Guid().ToString()};
-            //ident.FailureEvents.Add(fail);
-            //var mailRec = new MailReciever { Email = mail, RoutineIdentifer = ident };
-            //var maillog = new MailLog { Email = mail, FailureEvent = fail, SendAt = DateTime.Now, Subject = "dsad" };
-            //fail.RoutineIdentifer = ident;
-            //ident.MailRecievers = new List<MailReciever>();
-            //ident.MailRecievers.Add(mailRec);
+            var mail = new Email { FullName = "Aiddeath", EmailAddress = "aiddeath@gmail.com" };
+            var ident = new RoutineIdentifer { RoutineId = new Guid().ToString(), Description = "dsfsdgsd", FailureEvents = new List<FailureEvent>() };
+            var fail = new FailureEvent { ExceptionMessage = "Хлябадыщь", IsStillActive = true, FailureDescription = "Хана", Occured = DateTime.Now, RoutineId = new Guid().ToString() };
+            ident.FailureEvents.Add(fail);
+            var mailRec = new MailReciever { Email = mail, RoutineIdentifer = ident };
+            var maillog = new MailLog { Email = mail, FailureEvent = fail, SendAt = DateTime.Now, Subject = "Обнаружен сбой при проверке" };
+            fail.RoutineIdentifer = ident;
+            ident.MailRecievers = new List<MailReciever>();
+            ident.MailRecievers.Add(mailRec);
 
-            
 
-            //_db.FailureEvents.Add(fail);
-            //_db.SaveChanges();
+
+            _db.FailureEvents.Add(fail);
+            _db.MailLogs.Add(maillog);
+            _db.SaveChanges();
         }
 
 
