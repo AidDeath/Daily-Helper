@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="Daily_Helper.Views.MailBookWindow"
+﻿<UserControl x:Class="Daily_Helper.Views.MailReceiversWindow"
 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="Auto" Width="Auto" MaxHeight="500"
+        Height="Auto" Width="400" MaxHeight="500"
              d:Height="Auto"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:enums="clr-namespace:Daily_Helper.Helpers.Enums"
@@ -19,7 +19,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:MailBookViewModel}}" >
+        d:DataContext ="{d:DesignInstance {x:Type vml:MailReceiversViewModel}}" >
     <UserControl.Resources>
         <conv:FailureEventToStatusConverter x:Key="FailureEventToStatusConverter"/>
     </UserControl.Resources>
@@ -42,21 +42,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 <materialDesign:PackIcon Kind="CloseOutline"/>
             </Button>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding MailAddresses}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
-                <DataGridTextColumn Header="Почта" Binding="{Binding EmailAddress}"/>
-                <DataGridTemplateColumn Header="Удалить">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate >
-                            <Button Style="{StaticResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Kind="CloseOutline"/>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        
+        <!--here-->
 
 
     </Grid>
