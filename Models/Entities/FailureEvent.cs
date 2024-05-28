@@ -21,7 +21,10 @@ namespace Daily_Helper.Models
         public RoutineIdentifer RoutineIdentifer { get; set; }
 
 
-
+        public string MailReceiversText
+        {
+            get => RoutineIdentifer?.MailRecievers?.Count > 0 ? $"{RoutineIdentifer.MailRecievers.Select(mr => mr.Email.FullName).Aggregate((a, b) => a + "\n" + b)}" : "Не назначено";
+        }
         public override string ToString()
         {
             return $"Routine {RoutineId}, Occured {Occured}, Error:{ExceptionMessage}, Active:{(IsStillActive ? "Yep" : "Nah")}";

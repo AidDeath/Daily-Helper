@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Daily_Helper.Views
+namespace Daily_Helper.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for MailReceiversWindow.xaml
+    /// Interaction logic for SelectMailReceiversView.xaml
     /// </summary>
-    public partial class MailReceiversWindow : UserControl
+    public partial class SelectMailReceiversView : UserControl
     {
-        public MailReceiversWindow()
+        public SelectMailReceiversView()
         {
             InitializeComponent();
-        }
-
-        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
         }
     }
 }

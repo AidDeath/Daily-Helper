@@ -23,7 +23,9 @@ namespace Daily_Helper.ViewModels
             Title = "Просмотр событий";
 
             ExitCommand = new RelayCommand(OnExitCommand);
-            FailureEvents = new ObservableRangeCollection<FailureEvent>(_db.FailureEvents.Include(fe => fe.RoutineIdentifer)
+            FailureEvents = new ObservableRangeCollection<FailureEvent>(_db.FailureEvents
+                .Include(fe => fe.RoutineIdentifer)
+                .ThenInclude(ri => ri.MailRecievers).ThenInclude(mr => mr.Email)
                 .OrderByDescending(fe=> fe.RoutineIdentifer.IsCurrentlyInList)
                 .ThenByDescending(fe=> fe.IsStillActive)
                 .ThenByDescending(fe=> fe.Occured));

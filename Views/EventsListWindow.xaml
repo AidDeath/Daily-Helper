@@ -50,6 +50,8 @@
                         <GridViewColumn DisplayMemberBinding="{Binding RoutineIdentifer.Description}" Header="Описание"/>
                         <GridViewColumn DisplayMemberBinding="{Binding FailureDescription}" Header="Ошибка" />
                         <GridViewColumn Header="Статус ошибки" DisplayMemberBinding="{Binding Converter={StaticResource FailureEventToStatusConverter}}"/>
+                        <GridViewColumn Header="Уведомления направляются" DisplayMemberBinding="{Binding MailReceiversText}"/>
+
 
                     </GridView>
                 </ListView.View>
