@@ -46,6 +46,7 @@ namespace Daily_Helper.ViewModels
             RemoveRoutineCommand = new RelayCommand(OnRemoveRoutineCommandExecuted);
             ChangeViewCommand = new RelayCommand(OnChangeViewCommandExecuted);
             ShowEventsList = new AsyncRelayCommand(OnShowEventsListExecuted);
+            ShowMailRecieversCommand = new AsyncRelayCommand(OnShowMailRecieversCommandExecuted);
 
             DisableAllRoutinesCommand = new RelayCommand(OnDisableAllRoutinesCommandExecuted, CanDisableAllRoutinesCommandExecute);
             EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
@@ -87,6 +88,14 @@ namespace Daily_Helper.ViewModels
             var vm = await DialogHost.Show(new EventsListWindow(), "EventsListDialogHost") as EventsListViewModel;
 
         }
+
+        public IRaisedCommand ShowMailRecieversCommand { get; }
+        private async Task OnShowMailRecieversCommandExecuted(object obj)
+        {
+            var vm = await DialogHost.Show(new MailBookWindow(), "MailBookDialogHost") as MailBookViewModel;
+
+        }
+        
 
         public IRaisedCommand ShowAddRoutineWindowCommand { get; }
 

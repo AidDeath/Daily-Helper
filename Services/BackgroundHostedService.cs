@@ -1,4 +1,5 @@
 ﻿using Daily_Helper.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -44,6 +45,9 @@ namespace Daily_Helper.Services
                     {
                         _logger.LogInformation($"{routine.Description} - {routine.Result}");
 
+                        if (!_db.RoutineIdentifers.Any(rec => rec.RoutineId == routine.RoutineId))
+                            _db.RoutineIdentifers.Add(new RoutineIdentifer { RoutineId = routine.RoutineId, Description = routine.Description, IsCurrentlyInList = true });
+
                         //If routine failed and there is no record with "IsStillActive" checked in database - we add record
                         if (routine.Success == false && _db.FailureEvents.Where((record) => record.RoutineId == routine.RoutineId).All((rec) => !rec.IsStillActive))
                         {
@@ -52,22 +56,28 @@ namespace Daily_Helper.Services
                                 FailureDescription = routine.Result,
                                 Occured = routine.LastExecutted,
                                 RoutineId = routine.RoutineId,
-                                RoutineIdentifer = new RoutineIdentifer { IsCurrentlyInList = true, Description = routine.Description, RoutineId = routine.RoutineId}
+                                //RoutineIdentifer = new RoutineIdentifer { IsCurrentlyInList = true, Description = routine.Description, RoutineId = routine.RoutineId}
                                 
                             });
-                            await _db.SaveChangesAsync(stoppingToken);
+                            //await _db.SaveChangesAsync(stoppingToken);
                         }
 
+
+                        // Need to replace. Repeadedly db query
                         if (routine.Success == true && _db.FailureEvents.Any((record) => record.RoutineId == routine.RoutineId && record.IsStillActive))
                         {
-                            _db.FailureEvents.FirstOrDefault(rec => rec.RoutineId == routine.RoutineId).IsStillActive = false;
-                            await _db.SaveChangesAsync(stoppingToken);
+                            _db.FailureEvents.FirstOrDefault(rec => rec.RoutineId == routine.RoutineId && rec.IsStillActive).IsStillActive = false;
+                            //await _db.SaveChangesAsync(stoppingToken);
                         }
 
 
 
                         
                     }
+
+                    //Every time we will check for routines deleted from list
+                    await _db.RoutineIdentifers.ForEachAsync(rec => rec.IsCurrentlyInList = _routineTests.Routines.Any(routine => routine.RoutineId == rec.RoutineId));
+                    await _db.SaveChangesAsync(stoppingToken);
                     
                 }
                 catch (Exception ex)

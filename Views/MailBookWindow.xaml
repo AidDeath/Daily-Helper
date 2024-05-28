@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="Daily_Helper.Views.EventsListWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Daily_Helper.Views.MailBookWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,7 +19,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
-        d:DataContext ="{d:DesignInstance {x:Type vml:EventsListViewModel}}" >
+        d:DataContext ="{d:DesignInstance {x:Type vml:MailBookViewModel}}" >
     <UserControl.Resources>
         <conv:FailureEventToStatusConverter x:Key="FailureEventToStatusConverter"/>
     </UserControl.Resources>
@@ -42,20 +42,22 @@
                 <materialDesign:PackIcon Kind="CloseOutline"/>
             </Button>
         </Grid>
-        <ScrollViewer Grid.Row="1">
-            <ListView  ItemsSource="{Binding FailureEvents}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Occured, StringFormat=d, ConverterCulture=ru-RU}" Header="Обнаружена" />
-                        <GridViewColumn DisplayMemberBinding="{Binding RoutineIdentifer.Description}" Header="Описание"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding FailureDescription}" Header="Ошибка" />
-                        <GridViewColumn Header="Статус ошибки" DisplayMemberBinding="{Binding Converter={StaticResource FailureEventToStatusConverter}}"/>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding MailRecievers}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
+                <DataGridTextColumn Header="Почта" Binding="{Binding EmailAddress}"/>
+                <DataGridTemplateColumn Header="Удалить">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <Button >
+                                <materialDesign:PackIcon Kind="CloseOutline"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </ScrollViewer>
-            
 
     </Grid>
 </UserControl>

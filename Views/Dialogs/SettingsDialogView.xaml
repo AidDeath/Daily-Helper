@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Daily_Helper.Views"
         mc:Ignorable="d"
-        Height="223" Width="444"
+        Width="444"
         xmlns:vml="clr-namespace:Daily_Helper.ViewModels"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
+        TextOptions.TextRenderingMode="Auto"   
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         vml:ViewModelLocator.AutoWireViewModel="True"
@@ -25,6 +25,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -42,6 +43,31 @@
                 Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
                 ToolTip="MaterialDesignSwitchDarkToggleButton"
                 IsChecked="{Binding IsTiledViewPreferred}" />
+
+            <GroupBox Header="Настройки почты" Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Сервер smtp"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="mail.mfrb.by"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Логин отправителя почты"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="G500-UMAILER"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Пароль"/>
+                    <PasswordBox Grid.Row="2" Grid.Column="1" Password="mail.mfrb.by" />
+                </Grid>
+
+            </GroupBox>
+
 
 
 
