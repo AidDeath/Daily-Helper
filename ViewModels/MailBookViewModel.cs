@@ -18,7 +18,10 @@ namespace Daily_Helper.ViewModels
         {
             _db = db;
             Title = "Справочник получателей";
+
+            DeleteMailRecordCommand = new RelayCommand(OnDeleteMailRecordCommandExecuted);
             ExitCommand = new RelayCommand(OnExitCommand);
+
             MailAddresses = new ObservableRangeCollection<Email>(_db.Emails);
         }
 
@@ -29,6 +32,16 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _mailAddresses, value);
         }
 
+        public IRaisedCommand DeleteMailRecordCommand { get; }
+
+        private void OnDeleteMailRecordCommandExecuted(object obj)
+        {
+            _db.Emails.Remove(obj as Email);
+            _db.SaveChanges();
+            MailAddresses.Remove(obj as Email);
+
+        }
+
 
         public IRaisedCommand ExitCommand { get; }
         /// <summary>
@@ -37,6 +50,8 @@ namespace Daily_Helper.ViewModels
         /// <param name="obj"></param>
         private void OnExitCommand(object obj)
         {
+            _db.Emails.UpdateRange(MailAddresses);
+            _db.SaveChanges();
             DialogHost.Close("MailBookDialogHost");
         }
     }
