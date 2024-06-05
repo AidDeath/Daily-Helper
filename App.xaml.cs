@@ -46,8 +46,10 @@ namespace Daily_Helper
 
             //Add hosted setvice and variable provider
             services.AddSingleton<RoutineTestsProvider>();
+            services.AddSingleton<MailQueueProvider>();
             services.AddSingleton<SettingsSingleton>();
             services.AddHostedService<BackgroundHostedService>();
+            services.AddHostedService<MailerHostedService>();
             services.AddDbContext<DailyHelperDbContext>();
         }
 

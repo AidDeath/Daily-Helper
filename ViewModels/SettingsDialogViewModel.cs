@@ -23,6 +23,10 @@ namespace Daily_Helper.ViewModels
             CheckInterval = settings.CheckInterval;
             IsTiledViewPreferred = settings.IsTiledViewPreferred;
 
+            SmtpServer = settings.SmtpServer;
+            SenderLogin = settings.SenderLogin;
+            SenderPassword = settings.SenderPassword;
+
             SubmitChangesCommand = new RelayCommand(OnSubmitChangesCommandExecuted, CanSubmitChangesCommandExecute);
         }
 
@@ -41,6 +45,28 @@ namespace Daily_Helper.ViewModels
             set => SetProperty(ref _isTiledViewPreferred, value);
         }
 
+        private string _smtpServer;
+        public string SmtpServer
+        {
+            get => _smtpServer;
+            set => SetProperty(ref _smtpServer, value);
+        }
+
+        private string _senderLogin;
+        public string SenderLogin
+        {
+            get => _senderLogin;
+            set => SetProperty(ref _senderLogin, value);
+        }
+
+        private string _senderPassword;
+        public string SenderPassword
+        {
+            get => _senderPassword;
+            set => SetProperty(ref _senderPassword, value);
+        }
+
+
         public IRaisedCommand SubmitChangesCommand { get; }
         /// <summary>
         /// Close window and return true from dialog
@@ -50,6 +76,7 @@ namespace Daily_Helper.ViewModels
         {
             _settings.SetCheckInterval(CheckInterval);
             _settings.SetTiledViewPreferrence(IsTiledViewPreferred);
+            _settings.SetMailParameters(SmtpServer, SenderLogin, SenderPassword);
             DialogHost.Close("MaterialSettingsDialogHost", "here i return");
         }
 

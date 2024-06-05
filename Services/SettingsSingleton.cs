@@ -1,9 +1,11 @@
-﻿using Microsoft.Win32;
+﻿using Daily_Helper.Helpers;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Daily_Helper.Services
 {
@@ -11,11 +13,18 @@ namespace Daily_Helper.Services
     {
         private RegistryKey dailyHelperRegKey;
 
+        //REQUIRES 16 BYTES 
+        private readonly string cryptKey = "___KlochkoAG____";
+
         public int CheckInterval { get; private set; }
         public bool IsTiledViewPreferred { get; private set; }
 
         public int RememberedWidth { get; private set; }
         public int RememberedHeight { get; private set; }
+
+        public string SmtpServer { get; private set; }
+        public string SenderLogin { get; private set; }
+        public string SenderPassword { get; private set; }
 
         public SettingsSingleton()
         {
@@ -31,6 +40,12 @@ namespace Daily_Helper.Services
             IsTiledViewPreferred = bool.Parse((string)dailyHelperRegKey.GetValue("IsTiledViewPreferred", "False"));
             RememberedHeight = (int)dailyHelperRegKey.GetValue("RememberedHeight", 450);
             RememberedWidth = (int)dailyHelperRegKey.GetValue("RememberedWidth", 800);
+
+            SmtpServer = (string)dailyHelperRegKey.GetValue("SmtpServer", "mail.mfrb.by");
+            SenderLogin = (string)dailyHelperRegKey.GetValue("SenderLogin", "mail.mfrb.by");
+            var tempPassword = (string)dailyHelperRegKey.GetValue("SenderPassword", "");
+            SenderPassword = !string.IsNullOrEmpty(tempPassword) ? SimpleCrypter.DecryptString(cryptKey, tempPassword) : tempPassword;
+
 #pragma warning restore CS8605 // Unboxing a possibly null value.
         }
 
@@ -54,6 +69,17 @@ namespace Daily_Helper.Services
         {
             dailyHelperRegKey.SetValue("RememberedWidth", Width);
             dailyHelperRegKey.SetValue("RememberedHeight", Height);
+        }
+
+        public void SetMailParameters(string smtpServer, string senderLogin, string senderPassword)
+        {
+            dailyHelperRegKey.SetValue("SmtpServer", smtpServer);
+            dailyHelperRegKey.SetValue("SenderLogin", senderLogin);
+            dailyHelperRegKey.SetValue("SenderPassword", SimpleCrypter.EncryptString(cryptKey, senderPassword));
+
+            SmtpServer = smtpServer;
+            SenderLogin = senderLogin;
+            SenderPassword = senderPassword;
         }
 
     }

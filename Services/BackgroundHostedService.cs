@@ -17,17 +17,19 @@ namespace Daily_Helper.Services
     {
         private readonly ILogger<BackgroundHostedService> _logger;
         private RoutineTestsProvider _routineTests;
+        private MailQueueProvider _mailQueueProvider;
         private readonly SettingsSingleton _settings;
         private readonly DailyHelperDbContext _db;
 
 
-        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests, SettingsSingleton settings, DailyHelperDbContext db)
+        public BackgroundHostedService(ILogger<BackgroundHostedService> logger, RoutineTestsProvider routineTests, SettingsSingleton settings, DailyHelperDbContext db, MailQueueProvider mailQueueProvider)
         {
             _logger = logger;
 
             _logger.LogInformation("Background service started...");
 
             _routineTests = routineTests;
+            _mailQueueProvider = mailQueueProvider;
             _settings = settings;
             _db = db;
         }
@@ -58,8 +60,10 @@ namespace Daily_Helper.Services
                                 RoutineId = routine.RoutineId,
                                 //RoutineIdentifer = new RoutineIdentifer { IsCurrentlyInList = true, Description = routine.Description, RoutineId = routine.RoutineId}
                                 
+                                
                             });
-                            //await _db.SaveChangesAsync(stoppingToken);
+                            //Here we have new fail, that havent caught yet. So, This is a place for sending Emails
+                            _mailQueueProvider.MailQueue.Enqueue(routine.RoutineId);
                         }
 
 
