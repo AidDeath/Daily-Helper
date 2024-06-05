@@ -39,6 +39,7 @@
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="True" Identifier="EventsListDialogHost" Panel.ZIndex="1"/>
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="False" Identifier="MailBookDialogHost" Panel.ZIndex="1"/>
         <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="False" Identifier="MailReceiversDialogHost" Panel.ZIndex="1"/>
+        <materialDesign:DialogHost Grid.RowSpan="3" CloseOnClickAway="False" Identifier="MailLogDialogHost" Panel.ZIndex="1"/>
         <Menu Grid.Row="0">
             <MenuItem Header="Задачи">
                 <MenuItem.Items>
@@ -64,6 +65,7 @@
                     <MenuItem Header="События отказов" Command="{Binding ShowEventsList}"/>
                     <MenuItem Header="Справочник получателей" Command="{Binding ShowMailBookCommand}"/>
                     <MenuItem Header="Назначение уведомлений" Command="{Binding ShowMailRecieversCommand}"/>
+                    <MenuItem Header="История отправки уведомлений" Command="{Binding ShowMailLogsCommand}"/>
                 </MenuItem.Items>
             </MenuItem>
         </Menu>
