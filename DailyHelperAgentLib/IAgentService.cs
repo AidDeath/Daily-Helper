@@ -29,6 +29,9 @@ namespace DailyHelperAgentLib
         [OperationContract]
         List<DriveFreeSpace> GetDrivesFreeSpace();
 
+        [OperationContract]
+        void RunProcess(string executablePath);
+
     }
 
     [DataContract]
@@ -58,6 +61,7 @@ namespace DailyHelperAgentLib
         private string name;
         private bool isFound;
         private bool isResponding;
+        private string fullProcessPath;
 
         [DataMember]
         public string Name
@@ -78,6 +82,13 @@ namespace DailyHelperAgentLib
         {
             get => isResponding;
             set => isResponding = value;
+        }
+
+        [DataMember]
+        public string FullProcessPath
+        {
+            get => fullProcessPath;
+            set => fullProcessPath = value;
         }
     }
 }

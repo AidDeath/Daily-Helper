@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DailyHelperAgentProxy_.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="calendar_preferences.ico" />
   </ItemGroup>
 

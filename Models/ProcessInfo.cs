@@ -23,6 +23,7 @@ namespace Daily_Helper.Models
             Name = processState.Name;
             IsFound = processState.IsFound;
             IsResponding = processState.IsResponding;
+            FullProcessPath = processState.FullProcessPath;
         }
 
         private bool _isSelected;
@@ -56,6 +57,8 @@ namespace Daily_Helper.Models
             get => _isResponding;
             set => SetProperty(ref _isResponding, value);
         }
+
+        public string FullProcessPath { get; set; }
 
         public static IEnumerable<ProcessInfo> GetAllProcessInfo(string computerName)
         {

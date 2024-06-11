@@ -20,6 +20,13 @@ namespace Daily_Helper.Models
             set => SetProperty(ref _server, value);
         }
 
+        private bool _tryToRerunProcess;
+        public bool TryToRerunProcess
+        {
+            get => _tryToRerunProcess;
+            set => SetProperty(ref _tryToRerunProcess, value);
+        }
+
         private IEnumerable<string> _allProcesses;
 
         private ObservableRangeCollection<ProcessInfo>? _watchingProcesses;
@@ -50,6 +57,9 @@ namespace Daily_Helper.Models
                                 : "НЕ ОТВЕЧАЕТ"
                         : "закрыт";
                     results.Add($"{processInfo.Name} - {text}");
+
+                    if (!string.IsNullOrEmpty(processInfo.FullProcessPath) && text == "закрыт" && TryToRerunProcess) 
+                        RerunProcess(processInfo.FullProcessPath);
                 }
 
                 Success = WatchingProcesses.All(p => p.IsFound && p.IsResponding);
@@ -82,6 +92,16 @@ namespace Daily_Helper.Models
             WatchingProcesses.Clear();
             WatchingProcesses.AddRange(RefreshedWatchedProcesses);
             
+        }
+
+        private void RerunProcess(string executablePath)
+        {
+            using (var client = new AgentServiceClient(
+            new NetTcpBinding(),
+            new EndpointAddress(@"net.tcp://" + Server + @":9002/DailyHelperAgent")))
+            {
+                client.RunProcess(executablePath);
+            }
         }
     }
 }
