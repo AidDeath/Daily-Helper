@@ -16,6 +16,7 @@ namespace Daily_Helper.Models
         public int EmailId { get; set; }
         public DateTime SendAt { get; set; }
         public string Subject { get; set; }
+        public string SendResult { get; set; }
 
         public FailureEvent FailureEvent { get; set; }
         public Email Email { get; set; }

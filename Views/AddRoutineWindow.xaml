@@ -243,7 +243,7 @@
                                 <materialDesign:PackIcon Kind="CloseOutline"/>
                             </Button>
                         </StackPanel>
-                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="">
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,5">
                             <CheckBox IsChecked="{Binding ProcessStateRoutine.TryToRerunProcess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Text="Пытатья запустить процесс, если обнаружено, что он закрыт" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                         </StackPanel>

@@ -48,6 +48,7 @@ namespace Daily_Helper.ViewModels
             ShowEventsList = new AsyncRelayCommand(OnShowEventsListExecuted);
             ShowMailBookCommand = new AsyncRelayCommand(OnShowMailBookCommandExecuted);
             ShowMailRecieversCommand = new AsyncRelayCommand(OnShowMailRecieversCommandExecuted);
+            ShowMailLogsCommand = new AsyncRelayCommand(OnShowMailLogsCommandExecuted);
 
             DisableAllRoutinesCommand = new RelayCommand(OnDisableAllRoutinesCommandExecuted, CanDisableAllRoutinesCommandExecute);
             EnableAllRoutinesCommand = new RelayCommand(OnEnableAllRoutinesCommandExecuted, CanEnableAllRoutinesCommandExecute);
@@ -94,6 +95,14 @@ namespace Daily_Helper.ViewModels
         private async Task OnShowMailBookCommandExecuted(object obj)
         {
             var vm = await DialogHost.Show(new MailBookWindow(), "MailBookDialogHost") as MailBookViewModel;
+
+        }
+
+
+        public IRaisedCommand ShowMailLogsCommand { get; }
+        private async Task OnShowMailLogsCommandExecuted(object obj)
+        {
+            var vm = await DialogHost.Show(new MailLogWindow(), "MailLogDialogHost") as MailLogViewModel;
 
         }
 
